@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Main & Belajar 3–5 Tahun</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+  html,body{margin:0;height:100%}
+  body{font-family:'Baloo 2',system-ui,sans-serif;background:linear-gradient(180deg,#bfe9ff 0%,#fff6d6 100%);color:#2b2d42;overflow-x:hidden;min-height:100vh}
+  .wrap{max-width:720px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  h1{font-size:clamp(26px,6vw,40px);margin:4px 0;line-height:1.1}
+  .badge{background:#ff8fab;color:#fff;border-radius:999px;padding:4px 14px;font-size:18px;font-weight:800}
+  .stars{font-size:26px;font-weight:800;background:#fff;border-radius:999px;padding:4px 14px;box-shadow:0 4px 0 #e0c97a}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+  .tile{border:none;border-radius:28px;padding:20px 8px;font-family:inherit;font-size:26px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,.18);transition:transform .1s;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .tile:active{transform:translateY(6px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+  .tile .ico{font-size:64px;line-height:1}
+  .t1{background:#ff6b6b}.t2{background:#4dabf7}.t3{background:#51cf66}.t4{background:#b07cf7}
+  .hint{text-align:center;margin-top:18px;font-size:18px;opacity:.75}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .round-btn{border:none;background:#fff;border-radius:50%;width:60px;height:60px;font-size:30px;cursor:pointer;box-shadow:0 5px 0 #d8d8d8;flex:none}
+  .round-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #d8d8d8}
+  .progress{display:flex;gap:6px}
+  .dot{width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #ffd43b}
+  .dot.on{background:#ffd43b}
+  .prompt{text-align:center;font-size:clamp(28px,7vw,42px);font-weight:800;margin:14px 0 6px;min-height:1.2em}
+  .stage{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;font-size:clamp(44px,12vw,70px);min-height:90px;margin:6px 0 10px;line-height:1.1}
+  .choices{display:grid;gap:14px;margin-top:auto;padding-bottom:12px}
+  .choices.c3{grid-template-columns:repeat(3,1fr)}
+  .choice{border:none;background:#fff;border-radius:26px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 0 #d6d6d6;font-family:inherit;font-size:clamp(56px,15vw,90px);font-weight:800;color:#2b2d42;padding:10px;transition:transform .1s}
+  .choice:active{transform:translateY(6px);box-shadow:0 2px 0 #d6d6d6}
+  .choice svg{width:80%;height:80%}
+  .blob{width:78%;height:78%;border-radius:50%}
+  .wiggle{animation:wig .45s}
+  @keyframes wig{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+  .right{animation:pop .5s;background:#d3f9d8!important}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .fade{opacity:.35}
+  .overlay{position:fixed;inset:0;background:rgba(255,255,255,.85);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:20;text-align:center;padding:20px}
+  .overlay.show{display:flex}
+  .overlay .big{font-size:110px;animation:pop 1s infinite}
+  .overlay h2{font-size:44px;margin:6px 0}
+  .go{border:none;background:#51cf66;color:#fff;font-family:inherit;font-size:30px;font-weight:800;border-radius:999px;padding:12px 40px;margin-top:14px;cursor:pointer;box-shadow:0 7px 0 #2f9e44}
+  .go:active{transform:translateY(5px);box-shadow:0 2px 0 #2f9e44}
+  .confetti{position:fixed;top:-40px;font-size:30px;z-index:30;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+  .hidden{display:none!important}
+  .reset{display:block;margin:18px auto 0;border:none;background:#fff;font-family:inherit;font-size:18px;font-weight:800;color:#868e96;border-radius:999px;padding:8px 20px;box-shadow:0 4px 0 #dee2e6;cursor:pointer}
+  .go.red{background:#fa5252;box-shadow:0 7px 0 #c92a2a}
+  .parent{margin-top:auto;padding-top:24px;font-size:15px;opacity:.6;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- MENU -->
+  <section id="menu">
+    <a href="index.html" style="display:inline-block;font-weight:800;font-size:18px;color:#495057;text-decoration:none;background:#fff;border-radius:999px;padding:4px 14px;margin-bottom:8px;box-shadow:0 3px 0 #dee2e6">⬅ Pilih umur</a>
+    <header>
+      <div>
+        <span class="badge">3–5 tahun</span>
+        <h1>Ayo Main &amp; Belajar!</h1>
+      </div>
+      <div class="stars">⭐ <span class="starCount">0</span></div>
+    </header>
+    <div class="menu">
+      <button class="tile t1" data-game="warna"><span class="ico">🎨</span>Warna</button>
+      <button class="tile t2" data-game="hitung"><span class="ico">🍎</span>Hitung</button>
+      <button class="tile t3" data-game="hewan"><span class="ico">🐮</span>Hewan</button>
+      <button class="tile t4" data-game="bentuk"><span class="ico">🔺</span>Bentuk</button>
+    </div>
+    <p class="hint">🔊 Nyalakan suara HP ya!</p>
+    <button class="reset" id="resetBtn">🔄 Reset bintang</button>
+    <p class="parent">Untuk orang tua: tiap permainan 5 soal, ada suara petunjuk berbahasa Indonesia. Tekan 🔊 untuk mengulang petunjuk.</p>
+  </section>
+
+  <!-- GAME -->
+  <section id="game" class="hidden" style="display:flex;flex-direction:column;flex:1">
+    <div class="bar">
+      <button class="round-btn" id="homeBtn" aria-label="Kembali">🏠</button>
+      <div class="progress" id="progress"></div>
+      <button class="round-btn" id="sayBtn" aria-label="Ulangi suara">🔊</button>
+    </div>
+    <div class="prompt" id="prompt"></div>
+    <div class="stage" id="stage"></div>
+    <div class="choices c3" id="choices"></div>
+  </section>
+</div>
+
+<div class="overlay" id="done">
+  <div class="big">🏆</div>
+  <h2>Hebat Sekali!</h2>
+  <div style="font-size:26px">Kamu dapat ⭐⭐⭐⭐⭐</div>
+  <button class="go" id="againBtn">Main Lagi</button>
+  <button class="go" id="menuBtn" style="background:#4dabf7;box-shadow:0 7px 0 #1c7ed6">Menu</button>
+</div>
+
+<div class="overlay" id="confirmReset">
+  <div style="font-size:80px">🔄</div>
+  <h2>Hapus semua bintang?</h2>
+  <div style="font-size:20px">Bintang akan kembali ke 0.</div>
+  <button class="go red" id="yesReset">Ya, reset</button>
+  <button class="go" id="noReset" style="background:#4dabf7;box-shadow:0 7px 0 #1c7ed6">Batal</button>
+</div>
+
+<script>
+// ---------- Suara ----------
+let voiceID = null;
+function pickVoice(){
+  try{
+    const vs = speechSynthesis.getVoices();
+    voiceID = vs.find(v=>/^id/i.test(v.lang)) || vs.find(v=>/indones/i.test(v.name)) || null;
+  }catch(e){}
+}
+try{ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }catch(e){}
+function say(text){
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'id-ID'; if(voiceID) u.voice = voiceID;
+    u.rate = 0.9; u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+let actx;
+function tone(freqs, dur=0.12){
+  try{
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    freqs.forEach((f,i)=>{
+      const o=actx.createOscillator(), g=actx.createGain();
+      o.type='triangle'; o.frequency.value=f;
+      const t=actx.currentTime+i*dur;
+      g.gain.setValueAtTime(0.18,t); g.gain.exponentialRampToValueAtTime(0.001,t+dur*1.6);
+      o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t+dur*1.7);
+    });
+  }catch(e){}
+}
+const yay = ()=>tone([523,659,784,1047]);
+const oops = ()=>tone([330,262],0.15);
+
+// ---------- Data ----------
+const COLORS = [
+  {n:'merah',c:'#fa5252'},{n:'biru',c:'#339af0'},{n:'kuning',c:'#fcc419'},
+  {n:'hijau',c:'#40c057'},{n:'ungu',c:'#9c5bf0'},{n:'oranye',c:'#fd7e14'},
+  {n:'merah muda',c:'#f783ac'},{n:'cokelat',c:'#8d5a3b'}
+];
+const ANIMALS = [
+  {n:'kucing',e:'🐱',s:'meong meong'},{n:'anjing',e:'🐶',s:'guk guk'},
+  {n:'sapi',e:'🐮',s:'moo'},{n:'ayam',e:'🐔',s:'kukuruyuk'},
+  {n:'bebek',e:'🦆',s:'kwek kwek'},{n:'kambing',e:'🐐',s:'mbeek'},
+  {n:'singa',e:'🦁',s:'aum'},{n:'kodok',e:'🐸',s:'kung kong'},
+  {n:'gajah',e:'🐘',s:'tuuut'},{n:'monyet',e:'🐵',s:'uu aa aa'},
+  {n:'ikan',e:'🐟',s:'blup blup'},{n:'burung',e:'🐦',s:'cit cit cuit'}
+];
+const FRUITS = ['🍎','🍌','🍓','⭐','🎈','🐟','🚗','🌸'];
+const FRUIT_NAMES = {'🍎':'apel','🍌':'pisang','🍓':'stroberi','⭐':'bintang','🎈':'balon','🐟':'ikan','🚗':'mobil','🌸':'bunga'};
+const NUM_WORDS = ['nol','satu','dua','tiga','empat','lima'];
+const SHAPES = {
+  lingkaran:'<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#ff6b6b"/></svg>',
+  kotak:'<svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="6" fill="#4dabf7"/></svg>',
+  segitiga:'<svg viewBox="0 0 100 100"><polygon points="50,8 94,90 6,90" fill="#51cf66"/></svg>',
+  bintang:'<svg viewBox="0 0 100 100"><polygon points="50,5 61,38 96,38 68,58 79,92 50,72 21,92 32,58 4,38 39,38" fill="#fcc419"/></svg>',
+  hati:'<svg viewBox="0 0 100 100"><path d="M50 88 C10 60 4 38 18 22 C30 9 46 14 50 28 C54 14 70 9 82 22 C96 38 90 60 50 88Z" fill="#f783ac"/></svg>',
+  'persegi panjang':'<svg viewBox="0 0 100 100"><rect x="4" y="26" width="92" height="48" rx="6" fill="#b07cf7"/></svg>'
+};
+
+// ---------- Util ----------
+const $ = id=>document.getElementById(id);
+const shuffle = a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick = (arr,n,exclude=[])=>shuffle(arr.filter(x=>!exclude.includes(x))).slice(0,n);
+let stars = 0;
+try{ stars = parseInt(localStorage.getItem('stars35')||'0',10)||0; }catch(e){}
+function setStars(){ document.querySelectorAll('.starCount').forEach(s=>s.textContent=stars); try{localStorage.setItem('stars35',stars)}catch(e){} }
+setStars();
+function confetti(){
+  const bits=['⭐','🎉','🌟','🎈','💖','✨'];
+  for(let i=0;i<18;i++){
+    const d=document.createElement('div'); d.className='confetti';
+    d.textContent=bits[i%bits.length];
+    d.style.left=Math.random()*100+'vw';
+    d.style.animationDuration=(1.4+Math.random()*1.4)+'s';
+    document.body.appendChild(d); setTimeout(()=>d.remove(),3000);
+  }
+}
+
+// ---------- Generator soal ----------
+const GAMES = {
+  warna(){
+    const ans = pick(COLORS,1)[0];
+    const opts = shuffle([ans,...pick(COLORS,2,[ans])]);
+    return {
+      prompt:'Mana warna '+ans.n+'?', speak:'Mana warna '+ans.n+'?',
+      stage:'', opts:opts.map(o=>({html:`<div class="blob" style="background:${o.c}"></div>`,ok:o===ans,label:o.n})),
+      praise:'Betul! Itu warna '+ans.n+'!'
+    };
+  },
+  hitung(){
+    const n = 1+Math.floor(Math.random()*5);
+    const f = pick(FRUITS,1)[0];
+    const nums = shuffle([n,...pick([1,2,3,4,5],2,[n])]);
+    return {
+      prompt:'Ada berapa?', speak:'Ada berapa '+FRUIT_NAMES[f]+'? Ayo hitung!',
+      stage: Array(n).fill(f).map(x=>`<span>${x}</span>`).join(''),
+      opts: nums.map(k=>({html:String(k),ok:k===n,label:NUM_WORDS[k]})),
+      praise:'Pintar! Ada '+NUM_WORDS[n]+' '+FRUIT_NAMES[f]+'!',
+      count:n
+    };
+  },
+  hewan(){
+    const ans = pick(ANIMALS,1)[0];
+    const opts = shuffle([ans,...pick(ANIMALS,2,[ans])]);
+    const askSound = Math.random()<0.5;
+    return {
+      prompt: askSound ? 'Siapa yang bunyi "'+ans.s+'"?' : 'Mana '+ans.n+'?',
+      speak: askSound ? 'Siapa yang bunyinya, '+ans.s+'?' : 'Mana '+ans.n+'?',
+      stage:'', opts:opts.map(o=>({html:o.e,ok:o===ans,label:o.n})),
+      praise:'Betul! '+ans.n+' bunyinya '+ans.s+'!'
+    };
+  },
+  bentuk(){
+    const names = Object.keys(SHAPES);
+    const ans = pick(names,1)[0];
+    const opts = shuffle([ans,...pick(names,2,[ans])]);
+    return {
+      prompt:'Mana '+ans+'?', speak:'Mana bentuk '+ans+'?',
+      stage:'', opts:opts.map(o=>({html:SHAPES[o],ok:o===ans,label:o})),
+      praise:'Hebat! Itu '+ans+'!'
+    };
+  }
+};
+
+// ---------- Alur permainan ----------
+const ROUNDS = 5;
+let current=null, round=0, q=null, locked=false;
+
+function startGame(name){
+  current=name; round=0;
+  $('menu').classList.add('hidden'); $('game').classList.remove('hidden');
+  $('done').classList.remove('show');
+  nextRound();
+}
+function drawProgress(){
+  $('progress').innerHTML = Array.from({length:ROUNDS},(_,i)=>`<div class="dot ${i<round?'on':''}"></div>`).join('');
+}
+function nextRound(){
+  if(round>=ROUNDS){ finish(); return; }
+  locked=false;
+  q = GAMES[current]();
+  drawProgress();
+  $('prompt').textContent = q.prompt;
+  $('stage').innerHTML = q.stage;
+  $('stage').style.display = q.stage ? 'flex':'none';
+  const box = $('choices'); box.innerHTML='';
+  q.opts.forEach(o=>{
+    const b=document.createElement('button');
+    b.className='choice'; b.innerHTML=o.html; b.setAttribute('aria-label',o.label);
+    b.onclick=()=>answer(b,o);
+    box.appendChild(b);
+  });
+  say(q.speak);
+}
+function answer(btn,o){
+  if(locked) return;
+  if(o.ok){
+    locked=true; btn.classList.add('right');
+    [...$('choices').children].forEach(c=>{ if(c!==btn) c.classList.add('fade'); });
+    yay(); confetti(); say(q.praise);
+    stars++; setStars(); round++; drawProgress();
+    setTimeout(nextRound, 2600);
+  }else{
+    oops(); btn.classList.remove('wiggle'); void btn.offsetWidth; btn.classList.add('wiggle');
+    say('Itu '+o.label+'. Coba lagi ya!');
+  }
+}
+function finish(){
+  $('done').classList.add('show');
+  tone([523,659,784,1047,784,1047],0.14); confetti(); setTimeout(confetti,600);
+  say('Hore! Kamu hebat sekali! Dapat lima bintang!');
+}
+function goMenu(){
+  try{speechSynthesis.cancel()}catch(e){}
+  $('done').classList.remove('show');
+  $('game').classList.add('hidden'); $('menu').classList.remove('hidden');
+}
+
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>startGame(t.dataset.game));
+$('homeBtn').onclick=goMenu;
+$('sayBtn').onclick=()=>q&&say(q.speak);
+$('againBtn').onclick=()=>startGame(current);
+$('menuBtn').onclick=goMenu;
+$('resetBtn').onclick=()=>$('confirmReset').classList.add('show');
+$('noReset').onclick=()=>$('confirmReset').classList.remove('show');
+$('yesReset').onclick=()=>{stars=0;setStars();$('confirmReset').classList.remove('show');tone([392,330,262],0.1)};
+</script>
+</body>
+</html>

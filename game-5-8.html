@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Main & Belajar 5–8 Tahun</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+  html,body{margin:0;height:100%}
+  body{font-family:'Baloo 2',system-ui,sans-serif;background:linear-gradient(180deg,#c3fae8 0%,#fff3bf 100%);color:#2b2d42;overflow-x:hidden;min-height:100vh}
+  .wrap{max-width:720px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  h1{font-size:clamp(26px,6vw,40px);margin:4px 0;line-height:1.1}
+  .badge{background:#20c997;color:#fff;border-radius:999px;padding:4px 14px;font-size:18px;font-weight:800}
+  .stars{font-size:26px;font-weight:800;background:#fff;border-radius:999px;padding:4px 14px;box-shadow:0 4px 0 #e0c97a;white-space:nowrap}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+  .tile{border:none;border-radius:28px;padding:18px 8px;font-family:inherit;font-size:24px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,.18);transition:transform .1s;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .tile:active{transform:translateY(6px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+  .tile .ico{font-size:58px;line-height:1}
+  .tile small{font-size:15px;font-weight:600;opacity:.9}
+  .t1{background:#f76707}.t2{background:#1c7ed6}.t3{background:#e64980}.t4{background:#7048e8}
+  .hint{text-align:center;margin-top:18px;font-size:18px;opacity:.75}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .round-btn{border:none;background:#fff;border-radius:50%;width:56px;height:56px;font-size:28px;cursor:pointer;box-shadow:0 5px 0 #d8d8d8;flex:none}
+  .round-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #d8d8d8}
+  .progress{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+  .dot{width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #ffd43b}
+  .dot.on{background:#ffd43b}
+  .prompt{text-align:center;font-size:clamp(24px,6vw,36px);font-weight:800;margin:12px 0 4px;min-height:1.2em}
+  .stage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:120px;margin:4px 0 12px;text-align:center}
+  .emoji-big{font-size:clamp(80px,22vw,120px);line-height:1}
+  .word{font-size:clamp(40px,11vw,64px);font-weight:800;letter-spacing:2px;background:#fff;border-radius:20px;padding:2px 22px;box-shadow:0 5px 0 #e3e3e3}
+  .word .gap{color:#ced4da}
+  .sum{font-size:clamp(52px,14vw,84px);font-weight:800;line-height:1}
+  .helper{font-size:clamp(22px,6vw,32px);line-height:1.2;max-width:100%;word-break:break-all}
+  .seq{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;font-size:clamp(40px,11vw,62px);font-weight:800}
+  .seq span{background:#fff;border-radius:16px;min-width:1.4em;padding:0 8px;box-shadow:0 4px 0 #e3e3e3;text-align:center}
+  .seq .q{background:#ffe066}
+  .clock{width:min(58vw,240px);height:min(58vw,240px)}
+  .choices{display:grid;gap:14px;margin-top:auto;padding-bottom:12px;grid-template-columns:1fr 1fr}
+  .choice{border:none;background:#fff;border-radius:24px;min-height:100px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 0 #d6d6d6;font-family:inherit;font-size:clamp(30px,8.5vw,50px);font-weight:800;color:#2b2d42;padding:10px;transition:transform .1s;line-height:1.1;text-align:center}
+  .choice:active{transform:translateY(6px);box-shadow:0 2px 0 #d6d6d6}
+  .choice.sm{font-size:clamp(24px,6.5vw,38px)}
+  .wiggle{animation:wig .45s}
+  @keyframes wig{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+  .right{animation:pop .5s;background:#d3f9d8!important}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .fade{opacity:.35}
+  .overlay{position:fixed;inset:0;background:rgba(255,255,255,.88);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:20;text-align:center;padding:20px}
+  .overlay.show{display:flex}
+  .overlay .big{font-size:110px;animation:pop 1s infinite}
+  .overlay h2{font-size:40px;margin:6px 0}
+  .go{border:none;background:#51cf66;color:#fff;font-family:inherit;font-size:28px;font-weight:800;border-radius:999px;padding:10px 36px;margin-top:14px;cursor:pointer;box-shadow:0 7px 0 #2f9e44;min-width:200px}
+  .go:active{transform:translateY(5px);box-shadow:0 2px 0 #2f9e44}
+  .go.blue{background:#4dabf7;box-shadow:0 7px 0 #1c7ed6}
+  .go.red{background:#fa5252;box-shadow:0 7px 0 #c92a2a}
+  .reset{display:block;margin:22px auto 0;border:none;background:#fff;font-family:inherit;font-size:18px;font-weight:800;color:#868e96;border-radius:999px;padding:8px 20px;box-shadow:0 4px 0 #dee2e6;cursor:pointer}
+  .confetti{position:fixed;top:-40px;font-size:30px;z-index:30;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+  .hidden{display:none!important}
+  .parent{margin-top:auto;padding-top:20px;font-size:15px;opacity:.6;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="menu">
+    <a href="index.html" style="display:inline-block;font-weight:800;font-size:18px;color:#495057;text-decoration:none;background:#fff;border-radius:999px;padding:4px 14px;margin-bottom:8px;box-shadow:0 3px 0 #dee2e6">⬅ Pilih umur</a>
+    <header>
+      <div>
+        <span class="badge">5–8 tahun</span>
+        <h1>Ayo Main &amp; Belajar!</h1>
+      </div>
+      <div class="stars">⭐ <span class="starCount">0</span></div>
+    </header>
+    <div class="menu">
+      <button class="tile t1" data-game="baca"><span class="ico">📖</span>Membaca<small>suku kata &amp; kata</small></button>
+      <button class="tile t2" data-game="hitung"><span class="ico">➕</span>Berhitung<small>tambah &amp; kurang</small></button>
+      <button class="tile t3" data-game="jam"><span class="ico">🕒</span>Jam<small>baca jam</small></button>
+      <button class="tile t4" data-game="pola"><span class="ico">🧩</span>Pola<small>apa selanjutnya?</small></button>
+    </div>
+    <p class="hint">🔊 Nyalakan suara HP ya!</p>
+    <button class="reset" id="resetBtn">🔄 Reset bintang</button>
+    <p class="parent">Untuk orang tua: tiap permainan 8 soal, makin lama makin sulit. Tekan 🔊 untuk mengulang petunjuk.</p>
+  </section>
+
+  <section id="game" class="hidden" style="display:flex;flex-direction:column;flex:1">
+    <div class="bar">
+      <button class="round-btn" id="homeBtn" aria-label="Kembali">🏠</button>
+      <div class="progress" id="progress"></div>
+      <button class="round-btn" id="sayBtn" aria-label="Ulangi suara">🔊</button>
+    </div>
+    <div class="prompt" id="prompt"></div>
+    <div class="stage" id="stage"></div>
+    <div class="choices" id="choices"></div>
+  </section>
+</div>
+
+<div class="overlay" id="done">
+  <div class="big">🏆</div>
+  <h2>Hebat Sekali!</h2>
+  <div style="font-size:24px" id="doneText"></div>
+  <button class="go" id="againBtn">Main Lagi</button>
+  <button class="go blue" id="menuBtn">Menu</button>
+</div>
+
+<div class="overlay" id="confirmReset">
+  <div style="font-size:80px">🔄</div>
+  <h2>Hapus semua bintang?</h2>
+  <div style="font-size:20px">Bintang akan kembali ke 0.</div>
+  <button class="go red" id="yesReset">Ya, reset</button>
+  <button class="go blue" id="noReset">Batal</button>
+</div>
+
+<script>
+// ---------- Suara ----------
+let voiceID=null;
+function pickVoice(){try{const vs=speechSynthesis.getVoices();voiceID=vs.find(v=>/^id/i.test(v.lang))||vs.find(v=>/indones/i.test(v.name))||null}catch(e){}}
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='id-ID';if(voiceID)u.voice=voiceID;u.rate=0.92;u.pitch=1.15;speechSynthesis.speak(u)}catch(e){}}
+let actx;
+function tone(fs,d=0.12){try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();fs.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=f;const t=actx.currentTime+i*d;g.gain.setValueAtTime(0.18,t);g.gain.exponentialRampToValueAtTime(0.001,t+d*1.6);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+d*1.7)})}catch(e){}}
+const yay=()=>tone([523,659,784,1047]);
+const oops=()=>tone([330,262],0.15);
+
+// ---------- Util ----------
+const $=id=>document.getElementById(id);
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(arr,n,ex=[])=>shuffle(arr.filter(x=>!ex.includes(x))).slice(0,n);
+const ANGKA=['nol','satu','dua','tiga','empat','lima','enam','tujuh','delapan','sembilan','sepuluh','sebelas'];
+function terbilang(n){
+  if(n<12) return ANGKA[n];
+  if(n<20) return ANGKA[n-10]+' belas';
+  if(n<100) return ANGKA[Math.floor(n/10)]+' puluh'+(n%10?' '+ANGKA[n%10]:'');
+  if(n===100) return 'seratus';
+  return String(n);
+}
+const STAR_KEY='stars58';
+let stars=0;
+try{stars=parseInt(localStorage.getItem(STAR_KEY)||'0',10)||0}catch(e){}
+function setStars(){document.querySelectorAll('.starCount').forEach(s=>s.textContent=stars);try{localStorage.setItem(STAR_KEY,stars)}catch(e){}}
+setStars();
+function confetti(){const b=['⭐','🎉','🌟','🎈','💖','✨'];for(let i=0;i<18;i++){const d=document.createElement('div');d.className='confetti';d.textContent=b[i%b.length];d.style.left=Math.random()*100+'vw';d.style.animationDuration=(1.4+Math.random()*1.4)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}}
+// opsi angka di sekitar jawaban
+function numOpts(ans,n=4,min=0){const s=new Set([ans]);let tries=0;while(s.size<n&&tries<100){const v=ans+rnd(-3,3);if(v>=min&&v!==ans)s.add(v);tries++}let k=1;while(s.size<n){s.add(ans+k+5);k++}return shuffle([...s])}
+
+// ---------- Data membaca ----------
+const WORDS=[
+  {s:['BO','LA'],e:'⚽'},{s:['BU','KU'],e:'📕'},{s:['SA','PI'],e:'🐄'},{s:['KU','DA'],e:'🐴'},
+  {s:['TO','PI'],e:'🧢'},{s:['KA','KI'],e:'🦶'},{s:['BA','JU'],e:'👕'},{s:['RO','TI'],e:'🍞'},
+  {s:['SU','SU'],e:'🥛'},{s:['NA','SI'],e:'🍚'},{s:['KE','JU'],e:'🧀'},{s:['BA','BI'],e:'🐷'},
+  {s:['MO','BIL'],e:'🚗'},{s:['RU','MAH'],e:'🏠'},{s:['BU','LAN'],e:'🌙'},{s:['I','KAN'],e:'🐟'},
+  {s:['KU','CING'],e:'🐱'},{s:['JE','RUK'],e:'🍊'},{s:['A','PEL'],e:'🍎'},{s:['BU','NGA'],e:'🌸'},
+  {s:['PI','SANG'],e:'🍌'},{s:['KA','PAL'],e:'🚢'},{s:['BE','BEK'],e:'🦆'},{s:['KE','LIN','CI'],e:'🐰'},
+  {s:['SE','PA','TU'],e:'👟'},{s:['PE','SA','WAT'],e:'✈️'},{s:['KE','LA','PA'],e:'🥥'},
+  {s:['MA','TA','HA','RI'],e:'☀️'},{s:['KU','PU','KU','PU'],e:'🦋'},{s:['SE','PE','DA'],e:'🚲'},{s:['GA','JAH'],e:'🐘'}
+];
+WORDS.forEach(w=>{ w.w=w.s.join(''); });
+const SYL=[...new Set(WORDS.flatMap(w=>w.s))];
+
+// ---------- Jam ----------
+function clockSVG(h,m){
+  const cx=100,cy=100;
+  let ticks='';
+  for(let i=1;i<=12;i++){const a=(i*30-90)*Math.PI/180;ticks+=`<text x="${cx+74*Math.cos(a)}" y="${cy+74*Math.sin(a)+8}" font-size="22" font-weight="800" text-anchor="middle" fill="#343a40" font-family="Baloo 2,sans-serif">${i}</text>`}
+  const ha=((h%12)+m/60)*30-90, ma=m*6-90;
+  const hx=cx+45*Math.cos(ha*Math.PI/180),hy=cy+45*Math.sin(ha*Math.PI/180);
+  const mx=cx+68*Math.cos(ma*Math.PI/180),my=cy+68*Math.sin(ma*Math.PI/180);
+  return `<svg class="clock" viewBox="0 0 200 200"><circle cx="100" cy="100" r="94" fill="#fff" stroke="#e64980" stroke-width="8"/>${ticks}
+  <line x1="100" y1="100" x2="${mx}" y2="${my}" stroke="#1c7ed6" stroke-width="6" stroke-linecap="round"/>
+  <line x1="100" y1="100" x2="${hx}" y2="${hy}" stroke="#e8590c" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="100" cy="100" r="8" fill="#343a40"/></svg>`;
+}
+function clockLabel(h,m){ // label tertulis & ucapan
+  if(m===0) return {t:'Jam '+h, s:'jam '+terbilang(h)};
+  if(m===30){const n=h%12+1;return {t:'Setengah '+n, s:'jam setengah '+terbilang(n)}}
+  return {t:h+'.'+String(m).padStart(2,'0'), s:'jam '+terbilang(h)+' lewat '+terbilang(m)};
+}
+
+// ---------- Generator soal ----------
+// lvl: 0..1 (makin besar makin sulit)
+const GAMES={
+  baca(lvl){
+    const pool=lvl<0.5?WORDS.filter(w=>w.s.length===2):WORDS;
+    const w=pick(pool,1)[0];
+    const mode=Math.random()<0.5?'kata':'suku';
+    if(mode==='kata'){
+      const opts=shuffle([w,...pick(pool,3,[w])]);
+      return {prompt:'Gambar apa ini?',speak:'Gambar apa ini? Pilih tulisan yang benar!',
+        stage:`<div class="emoji-big">${w.e}</div>`,
+        opts:opts.map(o=>({html:o.w,ok:o===w,label:o.w.toLowerCase(),sm:o.w.length>6})),
+        praise:'Betul! '+w.s.join(' ').toLowerCase()+', '+w.w.toLowerCase()+'!'};
+    }
+    const idx=rnd(0,w.s.length-1);
+    const ans=w.s[idx];
+    const shown=w.s.map((s,i)=>i===idx?'<span class="gap">'+'_'.repeat(Math.max(2,s.length))+'</span>':s).join('·');
+    const opts=shuffle([ans,...pick(SYL,3,[ans])]);
+    return {prompt:'Suku kata yang hilang?',speak:'Ini gambar '+w.w.toLowerCase()+'. Suku kata mana yang hilang?',
+      stage:`<div class="emoji-big">${w.e}</div><div class="word">${shown}</div>`,
+      opts:opts.map(o=>({html:o,ok:o===ans,label:o.toLowerCase()})),
+      praise:'Pintar! '+w.s.join(' ').toLowerCase()+'. '+w.w.toLowerCase()+'!'};
+  },
+  hitung(lvl){
+    const max=lvl<0.35?10:20;
+    const plus=Math.random()<0.55;
+    let a,b,ans;
+    if(plus){a=rnd(1,max-1);b=rnd(1,max-a);ans=a+b}
+    else{a=rnd(2,max);b=rnd(1,a-1);ans=a-b}
+    const op=plus?'+':'−';
+    let helper='';
+    if(a<=10&&b<=10){
+      helper=plus?'🍎'.repeat(a)+' ➕ '+'🍏'.repeat(b):'🍎'.repeat(a-b)+'❌'.repeat(b);
+    }
+    return {prompt:plus?'Berapa hasilnya?':'Sisa berapa?',
+      speak:terbilang(a)+(plus?' tambah ':' kurang ')+terbilang(b)+', sama dengan berapa?',
+      stage:`<div class="sum">${a} ${op} ${b} = ?</div>${helper?`<div class="helper">${helper}</div>`:''}`,
+      opts:numOpts(ans,4,0).map(v=>({html:String(v),ok:v===ans,label:terbilang(v)})),
+      praise:'Betul! '+terbilang(a)+(plus?' tambah ':' kurang ')+terbilang(b)+' sama dengan '+terbilang(ans)+'!'};
+  },
+  jam(lvl){
+    const h=rnd(1,12);
+    const m=lvl<0.4?0:(Math.random()<0.5?0:30);
+    const correct=clockLabel(h,m);
+    const cand=[];
+    const hs=[h%12+1,(h+10)%12+1,(h+5)%12+1,(h+2)%12+1];
+    cand.push(clockLabel(h,m===0?30:0));
+    hs.forEach(x=>cand.push(clockLabel(x,m)));
+    const seen=new Set([correct.t]);const others=[];
+    for(const c of shuffle(cand)){if(!seen.has(c.t)&&others.length<3){seen.add(c.t);others.push(c)}}
+    const opts=shuffle([correct,...others]);
+    return {prompt:'Jam berapa ini?',speak:'Lihat jarumnya. Jam berapa ini?',
+      stage:clockSVG(h,m),
+      opts:opts.map(o=>({html:o.t,ok:o===correct,label:o.s,sm:true})),
+      praise:'Hebat! Sekarang '+correct.s+'!'};
+  },
+  pola(lvl){
+    if(Math.random()<0.5){
+      const sets=[['🔴','🔵','🟢','🟡'],['🍎','🍌','🍇','🍊'],['🐱','🐶','🐰','🐸'],['⭐','🌙','☀️','☁️']];
+      const s=pick(sets,1)[0];
+      const types=lvl<0.4?['AB','AAB']:['AB','AAB','ABB','ABC'];
+      const t=pick(types,1)[0];
+      const unit=t.split('').map(ch=>s['ABC'.indexOf(ch)]);
+      const len=unit.length===2?5:(unit.length===3?(t==='ABC'?5:6):5);
+      const seq=[];for(let i=0;i<=len;i++)seq.push(unit[i%unit.length]);
+      const ans=seq.pop();
+      const opts=shuffle([...new Set([ans,...shuffle(s)])].slice(0,4));
+      if(!opts.includes(ans)){opts[0]=ans}
+      return {prompt:'Apa selanjutnya?',speak:'Lihat polanya. Gambar apa selanjutnya?',
+        stage:`<div class="seq">${seq.map(x=>`<span>${x}</span>`).join('')}<span class="q">?</span></div>`,
+        opts:shuffle(opts).map(o=>({html:o,ok:o===ans,label:'itu'})),
+        praise:'Betul! Kamu jago menemukan pola!'};
+    }
+    const steps=lvl<0.4?[1,2]:[2,5,10,3];
+    const st=pick(steps,1)[0];
+    const down=lvl>0.6&&Math.random()<0.4;
+    let start=down?rnd(st*5,st*5+10):rnd(0,st===10?20:10);
+    const seq=[];for(let i=0;i<5;i++)seq.push(down?start-i*st:start+i*st);
+    const ans=seq.pop();
+    return {prompt:'Angka berapa selanjutnya?',speak:'Lihat urutan angkanya. Angka berapa selanjutnya?',
+      stage:`<div class="seq">${seq.map(x=>`<span>${x}</span>`).join('')}<span class="q">?</span></div>`,
+      opts:numOpts(ans,4,0).map(v=>({html:String(v),ok:v===ans,label:terbilang(v)})),
+      praise:'Pintar! Selanjutnya '+terbilang(ans)+', '+(down?'berkurang ':'bertambah ')+terbilang(st)+'!'};
+  }
+};
+
+// ---------- Alur ----------
+const ROUNDS=8;
+let current=null,round=0,q=null,locked=false,mistakes=0;
+function startGame(name){current=name;round=0;mistakes=0;$('menu').classList.add('hidden');$('game').classList.remove('hidden');$('done').classList.remove('show');nextRound()}
+function drawProgress(){$('progress').innerHTML=Array.from({length:ROUNDS},(_,i)=>`<div class="dot ${i<round?'on':''}"></div>`).join('')}
+function nextRound(){
+  if(round>=ROUNDS){finish();return}
+  locked=false;
+  q=GAMES[current](round/(ROUNDS-1));
+  drawProgress();
+  $('prompt').textContent=q.prompt;
+  $('stage').innerHTML=q.stage;
+  const box=$('choices');box.innerHTML='';
+  q.opts.forEach(o=>{const b=document.createElement('button');b.className='choice'+(o.sm?' sm':'');b.innerHTML=o.html;b.setAttribute('aria-label',o.label);b.onclick=()=>answer(b,o);box.appendChild(b)});
+  say(q.speak);
+}
+function answer(btn,o){
+  if(locked)return;
+  if(o.ok){
+    locked=true;btn.classList.add('right');
+    [...$('choices').children].forEach(c=>{if(c!==btn)c.classList.add('fade')});
+    yay();confetti();say(q.praise);stars++;setStars();round++;drawProgress();
+    setTimeout(nextRound,2800);
+  }else{
+    mistakes++;oops();btn.classList.remove('wiggle');void btn.offsetWidth;btn.classList.add('wiggle');
+    say('Belum tepat. Coba lagi ya!');
+  }
+}
+function finish(){
+  $('doneText').textContent='Kamu dapat '+ROUNDS+' bintang ⭐';
+  $('done').classList.add('show');tone([523,659,784,1047,784,1047],0.14);confetti();setTimeout(confetti,600);
+  say('Hore! Kamu hebat sekali! Dapat '+terbilang(ROUNDS)+' bintang!');
+}
+function goMenu(){try{speechSynthesis.cancel()}catch(e){}$('done').classList.remove('show');$('game').classList.add('hidden');$('menu').classList.remove('hidden')}
+
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>startGame(t.dataset.game));
+$('homeBtn').onclick=goMenu;
+$('sayBtn').onclick=()=>q&&say(q.speak);
+$('againBtn').onclick=()=>startGame(current);
+$('menuBtn').onclick=goMenu;
+$('resetBtn').onclick=()=>$('confirmReset').classList.add('show');
+$('noReset').onclick=()=>$('confirmReset').classList.remove('show');
+$('yesReset').onclick=()=>{stars=0;setStars();$('confirmReset').classList.remove('show');tone([392,330,262],0.1)};
+</script>
+</body>
+</html>
