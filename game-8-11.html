@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Main & Belajar 8–11 Tahun</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+  html,body{margin:0;height:100%}
+  body{font-family:'Baloo 2',system-ui,sans-serif;background:linear-gradient(180deg,#e5dbff 0%,#d0ebff 100%);color:#2b2d42;overflow-x:hidden;min-height:100vh}
+  .wrap{max-width:720px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  h1{font-size:clamp(26px,6vw,40px);margin:4px 0;line-height:1.1}
+  .badge{background:#7048e8;color:#fff;border-radius:999px;padding:4px 14px;font-size:18px;font-weight:800}
+  .stars{font-size:26px;font-weight:800;background:#fff;border-radius:999px;padding:4px 14px;box-shadow:0 4px 0 #e0c97a;white-space:nowrap}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+  .tile{border:none;border-radius:28px;padding:18px 8px;font-family:inherit;font-size:24px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,.18);transition:transform .1s;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .tile:active{transform:translateY(6px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+  .tile .ico{font-size:58px;line-height:1}
+  .tile small{font-size:15px;font-weight:600;opacity:.9}
+  .t1{background:#f76707}.t2{background:#1c7ed6}.t3{background:#e64980}.t4{background:#7048e8}
+  .hint{text-align:center;margin-top:18px;font-size:18px;opacity:.75}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .round-btn{border:none;background:#fff;border-radius:50%;width:56px;height:56px;font-size:28px;cursor:pointer;box-shadow:0 5px 0 #d8d8d8;flex:none}
+  .round-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #d8d8d8}
+  .progress{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+  .dot{width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #ffd43b}
+  .dot.on{background:#ffd43b}
+  .prompt{text-align:center;font-size:clamp(24px,6vw,36px);font-weight:800;margin:12px 0 4px;min-height:1.2em}
+  .stage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:120px;margin:4px 0 12px;text-align:center}
+  .emoji-big{font-size:clamp(80px,22vw,120px);line-height:1}
+  .word{font-size:clamp(40px,11vw,64px);font-weight:800;letter-spacing:2px;background:#fff;border-radius:20px;padding:2px 22px;box-shadow:0 5px 0 #e3e3e3}
+  .word .gap{color:#ced4da}
+  .sum{font-size:clamp(52px,14vw,84px);font-weight:800;line-height:1}
+  .helper{font-size:clamp(22px,6vw,32px);line-height:1.2;max-width:100%;word-break:break-all}
+  .seq{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;font-size:clamp(40px,11vw,62px);font-weight:800}
+  .seq span{background:#fff;border-radius:16px;min-width:1.4em;padding:0 8px;box-shadow:0 4px 0 #e3e3e3;text-align:center}
+  .seq .q{background:#ffe066}
+  .clock{width:min(58vw,240px);height:min(58vw,240px)}
+  .choices{display:grid;gap:14px;margin-top:auto;padding-bottom:12px;grid-template-columns:1fr 1fr}
+  .choice{border:none;background:#fff;border-radius:24px;min-height:100px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 0 #d6d6d6;font-family:inherit;font-size:clamp(30px,8.5vw,50px);font-weight:800;color:#2b2d42;padding:10px;transition:transform .1s;line-height:1.1;text-align:center}
+  .choice:active{transform:translateY(6px);box-shadow:0 2px 0 #d6d6d6}
+  .choice.sm{font-size:clamp(24px,6.5vw,38px)}
+  .wiggle{animation:wig .45s}
+  @keyframes wig{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+  .right{animation:pop .5s;background:#d3f9d8!important}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .fade{opacity:.35}
+  .overlay{position:fixed;inset:0;background:rgba(255,255,255,.88);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:20;text-align:center;padding:20px}
+  .overlay.show{display:flex}
+  .overlay .big{font-size:110px;animation:pop 1s infinite}
+  .overlay h2{font-size:40px;margin:6px 0}
+  .go{border:none;background:#51cf66;color:#fff;font-family:inherit;font-size:28px;font-weight:800;border-radius:999px;padding:10px 36px;margin-top:14px;cursor:pointer;box-shadow:0 7px 0 #2f9e44;min-width:200px}
+  .go:active{transform:translateY(5px);box-shadow:0 2px 0 #2f9e44}
+  .go.blue{background:#4dabf7;box-shadow:0 7px 0 #1c7ed6}
+  .go.red{background:#fa5252;box-shadow:0 7px 0 #c92a2a}
+  .reset{display:block;margin:22px auto 0;border:none;background:#fff;font-family:inherit;font-size:18px;font-weight:800;color:#868e96;border-radius:999px;padding:8px 20px;box-shadow:0 4px 0 #dee2e6;cursor:pointer}
+  .confetti{position:fixed;top:-40px;font-size:30px;z-index:30;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+  .hidden{display:none!important}
+  .parent{margin-top:auto;padding-top:20px;font-size:15px;opacity:.6;text-align:center}
+  .frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1;vertical-align:middle;margin:0 4px}
+  .frac b{display:block;padding:0 6px}
+  .frac i{display:block;width:100%;height:4px;background:currentColor;border-radius:2px;margin:4px 0}
+  .pie{width:min(50vw,200px);height:min(50vw,200px)}
+  .q-text{font-size:clamp(22px,5.6vw,32px);font-weight:800;background:#fff;border-radius:22px;padding:14px 18px;box-shadow:0 5px 0 #e3e3e3;max-width:100%;line-height:1.25}
+  .streak{font-size:18px;font-weight:800;color:#e8590c;min-height:1.3em}
+  .backlink{display:inline-block;font-weight:800;font-size:18px;color:#495057;text-decoration:none;background:#fff;border-radius:999px;padding:4px 14px;margin-bottom:8px;box-shadow:0 3px 0 #dee2e6}
+  .ortu{background:#fff4e6;border:2px dashed #ffa94d;color:#d9480f;border-radius:16px;padding:8px 12px;font-weight:800;font-size:17px;text-align:center;margin:12px 0 0}
+  .ortu.small{font-size:14px;padding:3px 10px;margin:8px auto 0;border-width:1.5px}
+  .explain{text-align:center;font-size:20px;font-weight:800;color:#2b8a3e;background:#ebfbee;border-radius:14px;padding:6px 12px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="menu">
+    <a href="index.html" class="backlink">⬅ Pilih umur</a>
+    <header>
+      <div>
+        <span class="badge">8–11 tahun</span>
+        <h1>Ayo Main &amp; Belajar!</h1>
+      </div>
+      <div class="stars">⭐ <span class="starCount">0</span></div>
+    </header>
+    <div class="ortu">👨‍👩‍👧 Harap didampingi orang tua saat bermain.</div>
+    <div class="menu">
+      <button class="tile t1" data-game="kali"><span class="ico">✖️</span>Kali &amp; Bagi<small>perkalian &amp; pembagian</small></button>
+      <button class="tile t2" data-game="pecahan"><span class="ico">🍕</span>Pecahan<small>bagian dari utuh</small></button>
+      <button class="tile t3" data-game="ejaan"><span class="ico">✍️</span>Ejaan<small>kata baku</small></button>
+      <button class="tile t4" data-game="tahu"><span class="ico">🌏</span>Pengetahuan<small>Indonesia &amp; sains</small></button>
+    </div>
+    <button class="reset" id="resetBtn">🔄 Reset bintang</button>
+    <p class="parent">Untuk orang tua: tiap permainan 10 soal, makin lama makin sulit. Tekan 🔊 untuk membacakan soal.</p>
+  </section>
+
+  <section id="game" class="hidden" style="display:flex;flex-direction:column;flex:1">
+    <div class="bar">
+      <button class="round-btn" id="homeBtn" aria-label="Kembali">🏠</button>
+      <div class="progress" id="progress"></div>
+      <button class="round-btn" id="sayBtn" aria-label="Bacakan soal">🔊</button>
+    </div>
+    <div class="ortu small">👨‍👩‍👧 Harap didampingi orang tua</div>
+    <div class="streak" id="streak"></div>
+    <div class="prompt" id="prompt"></div>
+    <div class="stage" id="stage"></div>
+    <div class="explain hidden" id="explain"></div>
+    <div class="choices" id="choices"></div>
+  </section>
+</div>
+
+<div class="overlay" id="done">
+  <div class="big">🏆</div>
+  <h2 id="doneTitle">Hebat Sekali!</h2>
+  <div style="font-size:24px" id="doneText"></div>
+  <button class="go" id="againBtn">Main Lagi</button>
+  <button class="go blue" id="menuBtn">Menu</button>
+</div>
+
+<div class="overlay" id="confirmReset">
+  <div style="font-size:80px">🔄</div>
+  <h2>Hapus semua bintang?</h2>
+  <div style="font-size:20px">Bintang akan kembali ke 0.</div>
+  <button class="go red" id="yesReset">Ya, reset</button>
+  <button class="go blue" id="noReset">Batal</button>
+</div>
+
+<script>
+// ---------- Suara (hanya saat tombol 🔊 ditekan) ----------
+let voiceID=null;
+function pickVoice(){try{const vs=speechSynthesis.getVoices();voiceID=vs.find(v=>/^id/i.test(v.lang))||vs.find(v=>/indones/i.test(v.name))||null}catch(e){}}
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='id-ID';if(voiceID)u.voice=voiceID;u.rate=0.95;speechSynthesis.speak(u)}catch(e){}}
+let actx;
+function tone(fs,d=0.12){try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();fs.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=f;const t=actx.currentTime+i*d;g.gain.setValueAtTime(0.18,t);g.gain.exponentialRampToValueAtTime(0.001,t+d*1.6);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+d*1.7)})}catch(e){}}
+const yay=()=>tone([523,659,784,1047]);
+const oops=()=>tone([330,262],0.15);
+
+// ---------- Util ----------
+const $=id=>document.getElementById(id);
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(arr,n,ex=[])=>shuffle(arr.filter(x=>!ex.includes(x))).slice(0,n);
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const frac=(n,d)=>`<span class="frac"><b>${n}</b><i></i><b>${d}</b></span>`;
+const fracSay=(n,d)=>n+' per '+d;
+const STAR_KEY='stars811';
+let stars=0;
+try{stars=parseInt(localStorage.getItem(STAR_KEY)||'0',10)||0}catch(e){}
+function setStars(){document.querySelectorAll('.starCount').forEach(s=>s.textContent=stars);try{localStorage.setItem(STAR_KEY,stars)}catch(e){}}
+setStars();
+function confetti(){const b=['⭐','🎉','🌟','✨','🏅'];for(let i=0;i<14;i++){const d=document.createElement('div');d.className='confetti';d.textContent=b[i%b.length];d.style.left=Math.random()*100+'vw';d.style.animationDuration=(1.4+Math.random()*1.4)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}}
+function numOpts(ans,n=4){const s=new Set([ans]);const spread=Math.max(3,Math.round(ans*0.15));let t=0;while(s.size<n&&t<200){const v=ans+rnd(-spread,spread);if(v>=0&&v!==ans)s.add(v);t++}let k=1;while(s.size<n){s.add(ans+spread+k);k++}return shuffle([...s])}
+
+// ---------- Pecahan: gambar pizza ----------
+function pieSVG(n,d){
+  const cx=100,cy=100,r=88;let out='';
+  for(let i=0;i<d;i++){
+    const a1=(i/d)*2*Math.PI-Math.PI/2,a2=((i+1)/d)*2*Math.PI-Math.PI/2;
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const large=(a2-a1)>Math.PI?1:0;
+    out+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} Z" fill="${i<n?'#ff922b':'#fff'}" stroke="#495057" stroke-width="3"/>`;
+  }
+  return `<svg class="pie" viewBox="0 0 200 200">${out}</svg>`;
+}
+
+// ---------- Data ejaan (baku vs tidak baku, KBBI) ----------
+const EJAAN=[
+ ['apotek','apotik'],['praktik','praktek'],['risiko','resiko'],['nasihat','nasehat'],
+ ['kualitas','kwalitas'],['jadwal','jadual'],['objek','obyek'],['sistem','sistim'],
+ ['aktivitas','aktifitas'],['kreatif','kreatip'],['hakikat','hakekat'],['karier','karir'],
+ ['ijazah','ijasah'],['izin','ijin'],['jenazah','jenasah'],['kuitansi','kwitansi'],
+ ['sekadar','sekedar'],['silakan','silahkan'],['teladan','tauladan'],
+ ['telur','telor'],['zaman','jaman'],['rezeki','rejeki'],['analisis','analisa'],
+ ['frekuensi','frekwensi'],['Februari','Pebruari'],['atlet','atlit'],['cabai','cabe'],
+ ['ekstrem','ekstrim'],['kategori','katagori'],['detail','detil'],['efektif','efektip'],
+ ['November','Nopember'],['antre','antri'],['imbau','himbau'],['lembap','lembab']
+];
+const EJAAN_PAIRS=EJAAN.filter(p=>p[0]!==p[1]);
+
+// ---------- Data pengetahuan ----------
+const TAHU=[
+ ['Siapa presiden pertama Indonesia?','Soekarno',['Soeharto','B.J. Habibie','Mohammad Hatta']],
+ ['Kapan Indonesia merdeka?','17 Agustus 1945',['17 Agustus 1950','28 Oktober 1928','1 Juni 1945']],
+ ['Apa lambang negara Indonesia?','Garuda Pancasila',['Bendera Merah Putih','Komodo','Monas']],
+ ['Ada berapa sila dalam Pancasila?','5',['3','4','6']],
+ ['Siapa pencipta lagu "Indonesia Raya"?','W.R. Supratman',['Ibu Sud','Ki Hajar Dewantara','C. Simanjuntak']],
+ ['Apa semboyan bangsa Indonesia?','Bhinneka Tunggal Ika',['Tut Wuri Handayani','Gotong Royong','Merdeka atau Mati']],
+ ['Apa mata uang Indonesia?','Rupiah',['Ringgit','Baht','Peso']],
+ ['Danau terbesar di Indonesia adalah…','Danau Toba',['Danau Maninjau','Danau Sentani','Danau Poso']],
+ ['Komodo hidup di provinsi…','Nusa Tenggara Timur',['Bali','Papua','Sumatera Barat']],
+ ['Candi Buddha terbesar di Indonesia adalah…','Borobudur',['Prambanan','Mendut','Penataran']],
+ ['Siapa yang disebut Bapak Pendidikan Indonesia?','Ki Hajar Dewantara',['R.A. Kartini','Soekarno','Cut Nyak Dhien']],
+ ['Hari Kartini diperingati setiap tanggal…','21 April',['2 Mei','10 November','28 Oktober']],
+ ['Hari Pahlawan diperingati setiap tanggal…','10 November',['17 Agustus','21 April','1 Oktober']],
+ ['Sumpah Pemuda terjadi pada tanggal…','28 Oktober 1928',['17 Agustus 1945','20 Mei 1908','1 Juni 1945']],
+ ['Planet yang paling dekat dengan Matahari adalah…','Merkurius',['Venus','Bumi','Mars']],
+ ['Planet terbesar di tata surya adalah…','Jupiter',['Saturnus','Bumi','Neptunus']],
+ ['Planet yang dijuluki "planet merah" adalah…','Mars',['Venus','Jupiter','Merkurius']],
+ ['Satelit alami Bumi adalah…','Bulan',['Matahari','Mars','Bintang']],
+ ['Proses tumbuhan membuat makanan sendiri disebut…','Fotosintesis',['Respirasi','Metamorfosis','Penguapan']],
+ ['Hewan yang hanya makan tumbuhan disebut…','Herbivora',['Karnivora','Omnivora','Insektivora']],
+ ['Organ yang memompa darah ke seluruh tubuh adalah…','Jantung',['Paru-paru','Hati','Lambung']],
+ ['Saat bernapas, kita menghirup gas…','Oksigen',['Karbon dioksida','Nitrogen','Helium']],
+ ['Berapa jumlah kaki serangga?','6',['4','8','10']],
+ ['Es adalah air dalam wujud…','Padat',['Cair','Gas','Plasma']],
+ ['Air berubah menjadi uap disebut…','Menguap',['Membeku','Mencair','Mengembun']],
+ ['Sebelum menjadi kupu-kupu, ulat berubah menjadi…','Kepompong',['Telur','Larva','Berudu']],
+ ['Benua terbesar di dunia adalah…','Asia',['Afrika','Eropa','Australia']],
+ ['Samudra terluas di dunia adalah…','Samudra Pasifik',['Samudra Hindia','Samudra Atlantik','Samudra Arktik']],
+ ['Matahari terbit dari arah…','Timur',['Barat','Utara','Selatan']],
+ ['Alat untuk mengukur suhu badan adalah…','Termometer',['Barometer','Penggaris','Timbangan']]
+];
+
+// ---------- Generator soal (lvl 0..1) ----------
+const GAMES={
+  kali(lvl){
+    const type=pick(lvl<0.4?['x','x','b']:lvl<0.75?['x','b','cerita']:['x2','b','cerita','x2'],1)[0];
+    let a,b,ans,txt,spk;
+    if(type==='x'){a=rnd(2,10);b=rnd(2,10);ans=a*b;txt=`${a} × ${b} = ?`;spk=`${a} kali ${b} sama dengan berapa?`}
+    else if(type==='x2'){a=rnd(11,25);b=rnd(2,9);ans=a*b;txt=`${a} × ${b} = ?`;spk=`${a} kali ${b} sama dengan berapa?`}
+    else if(type==='b'){b=rnd(2,10);ans=rnd(2,lvl<0.5?10:12);a=b*ans;txt=`${a} : ${b} = ?`;spk=`${a} dibagi ${b} sama dengan berapa?`}
+    else{
+      const st=pick([
+        ()=>{a=rnd(3,9);b=rnd(4,12);ans=a*b;return `Ada ${a} kotak. Tiap kotak berisi ${b} pensil. Berapa jumlah semua pensil?`},
+        ()=>{b=rnd(3,8);ans=rnd(3,9);a=b*ans;return `${a} permen dibagi rata untuk ${b} anak. Tiap anak dapat berapa permen?`},
+        ()=>{a=rnd(2,6);b=rnd(3,9);ans=a*b*2;return `Ada ${a} meja. Tiap meja punya ${b} piring, tiap piring berisi 2 kue. Berapa semua kue?`}
+      ],1)[0];
+      txt=st();spk=txt;
+      return {prompt:'Soal cerita',speak:spk,stage:`<div class="q-text">${txt}</div>`,
+        opts:numOpts(ans).map(v=>({html:String(v),ok:v===ans,label:String(v)})),explain:'Jawabannya '+ans+'.'};
+    }
+    return {prompt:'Berapa hasilnya?',speak:spk,stage:`<div class="sum">${txt}</div>`,
+      opts:numOpts(ans).map(v=>({html:String(v),ok:v===ans,label:String(v)})),explain:txt.replace('?',ans)};
+  },
+  pecahan(lvl){
+    const modes=lvl<0.3?['gambar']:lvl<0.6?['gambar','banding','sederhana']:['banding','sederhana','tambah','dari'];
+    const m=pick(modes,1)[0];
+    if(m==='gambar'){
+      const d=rnd(2,8),n=rnd(1,d-1);
+      const cand=[[n,d],[d-n,d],[n,d+1],[n+1,d],[d,n],[n,Math.max(2,d-1)]];
+      const seen=new Set(),opts=[];
+      for(const c of cand){const k=c.join('/');if(!seen.has(k)&&c[0]<=12&&c[1]>0&&!(c[0]===n&&c[1]===d&&opts.length)){seen.add(k);opts.push(c)}if(opts.length===4)break}
+      return {prompt:'Bagian oranye = ?',speak:'Berapa bagian pizza yang berwarna oranye?',stage:pieSVG(n,d),
+        opts:shuffle(opts).map(([a,b])=>({html:frac(a,b),ok:a===n&&b===d,label:fracSay(a,b)})),
+        explain:`Ada ${d} potong, ${n} berwarna oranye → ${n}/${d}`};
+    }
+    if(m==='banding'){
+      let a,b,c,d;
+      do{ if(Math.random()<0.5){a=1;c=1;b=rnd(2,9);d=rnd(2,9)}else{b=d=rnd(3,10);a=rnd(1,b-1);c=rnd(1,b-1)} }while(a*d===c*b);
+      const big=a*d>c*b?[a,b]:[c,d];
+      return {prompt:'Mana yang lebih besar?',speak:'Mana pecahan yang lebih besar?',stage:`<div class="sum">${frac(a,b)} <span style="font-size:.6em">atau</span> ${frac(c,d)}</div>`,
+        opts:[[a,b],[c,d]].map(([x,y])=>({html:frac(x,y),ok:x===big[0]&&y===big[1],label:fracSay(x,y)})),
+        explain:a===1&&c===1?'Penyebut makin besar, potongannya makin kecil.':'Penyebut sama, bandingkan pembilangnya.'};
+    }
+    if(m==='sederhana'){
+      const d0=rnd(2,6),n0=rnd(1,d0-1);
+      if(gcd(n0,d0)!==1) return GAMES.pecahan(lvl);
+      const k=rnd(2,4),n=n0*k,d=d0*k;
+      const cand=[[n0,d0],[n0+1,d0],[n0,d0+1],[n/2|0||1,d0],[d0-n0||1,d0+1]];
+      const seen=new Set(),opts=[];
+      for(const c of cand){const key=c.join('/');if(!seen.has(key)&&(c[0]!==n0||c[1]!==d0||!opts.length)&&c[0]<c[1]&&!(c[0]*d0===c[1]*n0&&!(c[0]===n0&&c[1]===d0))){seen.add(key);opts.push(c)}}
+      while(opts.length<4){const x=[rnd(1,5),rnd(6,9)];const key=x.join('/');if(!seen.has(key)&&x[0]*d0!==x[1]*n0){seen.add(key);opts.push(x)}}
+      return {prompt:'Bentuk paling sederhana?',speak:`Sederhanakan ${fracSay(n,d)}`,stage:`<div class="sum">${frac(n,d)} = ?</div>`,
+        opts:shuffle(opts.slice(0,4)).map(([a,b])=>({html:frac(a,b),ok:a===n0&&b===d0,label:fracSay(a,b)})),
+        explain:`Bagi atas dan bawah dengan ${k}: ${n}/${d} = ${n0}/${d0}`};
+    }
+    if(m==='tambah'){
+      const d=rnd(3,10),a=rnd(1,d-2),b=rnd(1,d-1-a);const s=a+b;
+      const seen=new Set(),opts=[];
+      for(const c of [[s,d],[s,d*2],[a*b,d],[s+1,d],[s-1,d],[s,d+1],[s+2,d]]){const k=c.join('/');if(c[0]>0&&!seen.has(k)){seen.add(k);opts.push(c)}if(opts.length===4)break}
+      return {prompt:'Berapa hasilnya?',speak:`${fracSay(a,d)} ditambah ${fracSay(b,d)} sama dengan berapa?`,stage:`<div class="sum">${frac(a,d)} + ${frac(b,d)} = ?</div>`,
+        opts:shuffle(opts).map(([x,y])=>({html:frac(x,y),ok:x===s&&y===d,label:fracSay(x,y)})),
+        explain:'Penyebut sama: tambahkan pembilangnya saja, penyebut tetap.'};
+    }
+    // pecahan dari bilangan
+    const d=pick([2,3,4,5],1)[0],n=rnd(1,d-1),tot=d*rnd(2,8);const ans=tot/d*n;
+    return {prompt:'Berapa hasilnya?',speak:`${fracSay(n,d)} dari ${tot} adalah berapa?`,stage:`<div class="sum">${frac(n,d)} dari ${tot} = ?</div>`,
+      opts:numOpts(ans).map(v=>({html:String(v),ok:v===ans,label:String(v)})),explain:`${tot} : ${d} = ${tot/d}, lalu × ${n} = ${ans}`};
+  },
+  ejaan(lvl){
+    const sets=pick(EJAAN_PAIRS,lvl<0.5?1:2);
+    if(sets.length===1){
+      const [b,t]=sets[0];
+      return {prompt:'Mana kata yang baku?',speak:'Mana penulisan kata yang baku?',stage:'<div style="font-size:60px">✍️</div>',
+        opts:shuffle([b,t]).map(w=>({html:w,ok:w===b,label:w,sm:true})),explain:`Yang baku: ${b} (bukan ${t})`};
+    }
+    // 4 pilihan: satu baku, tiga tidak baku
+    const right=sets[0][0];const wrong=pick(EJAAN_PAIRS.filter(p=>p[0]!==right),3).map(p=>p[1]);
+    return {prompt:'Mana yang ditulis dengan benar?',speak:'Dari empat kata ini, mana yang ditulis dengan benar?',stage:'<div style="font-size:60px">🔎</div>',
+      opts:shuffle([right,...wrong]).map(w=>({html:w,ok:w===right,label:w,sm:true})),explain:`Yang benar: ${right}`};
+  },
+  tahu(lvl){
+    const [q,a,w]=pick(TAHU,1)[0];
+    return {prompt:'Kuis',speak:q,stage:`<div class="q-text">${q}</div>`,
+      opts:shuffle([a,...w]).map(o=>({html:o,ok:o===a,label:o,sm:true})),explain:'Jawabannya: '+a};
+  }
+};
+
+// ---------- Alur ----------
+const ROUNDS=10;
+let current=null,round=0,q=null,locked=false,firstTry=0,tried=false,streak=0,usedQ=new Set();
+function startGame(name){current=name;round=0;firstTry=0;streak=0;usedQ=new Set();$('menu').classList.add('hidden');$('game').classList.remove('hidden');$('done').classList.remove('show');nextRound()}
+function drawProgress(){$('progress').innerHTML=Array.from({length:ROUNDS},(_,i)=>`<div class="dot ${i<round?'on':''}"></div>`).join('')}
+function nextRound(){
+  if(round>=ROUNDS){finish();return}
+  locked=false;tried=false;
+  let t=0;do{q=GAMES[current](round/(ROUNDS-1));t++}while(usedQ.has(q.stage+q.prompt)&&t<30);
+  usedQ.add(q.stage+q.prompt);
+  drawProgress();
+  $('streak').textContent=streak>=3?`🔥 ${streak} benar berturut-turut!`:'';
+  $('prompt').textContent=q.prompt;
+  $('stage').innerHTML=q.stage;
+  $('explain').classList.add('hidden');
+  const box=$('choices');box.innerHTML='';
+  box.style.gridTemplateColumns=q.opts.length===2?'1fr 1fr':'1fr 1fr';
+  q.opts.forEach(o=>{const b=document.createElement('button');b.className='choice'+(o.sm?' sm':'');b.innerHTML=o.html;b.setAttribute('aria-label',o.label);b.onclick=()=>answer(b,o);box.appendChild(b)});
+}
+function answer(btn,o){
+  if(locked)return;
+  if(o.ok){
+    locked=true;btn.classList.add('right');
+    [...$('choices').children].forEach(c=>{if(c!==btn)c.classList.add('fade')});
+    if(!tried){firstTry++;streak++}else streak=0;
+    yay();confetti();stars++;setStars();round++;drawProgress();
+    $('explain').textContent='✅ '+q.explain;$('explain').classList.remove('hidden');
+    setTimeout(nextRound,2600);
+  }else{
+    tried=true;streak=0;oops();btn.classList.remove('wiggle');void btn.offsetWidth;btn.classList.add('wiggle');btn.classList.add('fade');
+  }
+}
+function finish(){
+  $('doneTitle').textContent=firstTry>=9?'Luar Biasa!':firstTry>=6?'Hebat!':'Bagus, terus berlatih!';
+  $('doneText').textContent=`Benar di percobaan pertama: ${firstTry} dari ${ROUNDS} soal`;
+  $('done').classList.add('show');tone([523,659,784,1047,784,1047],0.14);confetti();setTimeout(confetti,600);
+}
+function goMenu(){try{speechSynthesis.cancel()}catch(e){}$('done').classList.remove('show');$('game').classList.add('hidden');$('menu').classList.remove('hidden')}
+
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>startGame(t.dataset.game));
+$('homeBtn').onclick=goMenu;
+$('sayBtn').onclick=()=>q&&say(q.speak);
+$('againBtn').onclick=()=>startGame(current);
+$('menuBtn').onclick=goMenu;
+$('resetBtn').onclick=()=>$('confirmReset').classList.add('show');
+$('noReset').onclick=()=>$('confirmReset').classList.remove('show');
+$('yesReset').onclick=()=>{stars=0;setStars();$('confirmReset').classList.remove('show');tone([392,330,262],0.1)};
+</script>
+</body>
+</html>

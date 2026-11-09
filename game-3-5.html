@@ -51,6 +51,8 @@
   .reset{display:block;margin:18px auto 0;border:none;background:#fff;font-family:inherit;font-size:18px;font-weight:800;color:#868e96;border-radius:999px;padding:8px 20px;box-shadow:0 4px 0 #dee2e6;cursor:pointer}
   .go.red{background:#fa5252;box-shadow:0 7px 0 #c92a2a}
   .parent{margin-top:auto;padding-top:24px;font-size:15px;opacity:.6;text-align:center}
+  .ortu{background:#fff4e6;border:2px dashed #ffa94d;color:#d9480f;border-radius:16px;padding:8px 12px;font-weight:800;font-size:17px;text-align:center;margin:12px 0 0}
+  .ortu.small{font-size:14px;padding:3px 10px;margin:8px auto 0;border-width:1.5px}
 </style>
 </head>
 <body>
@@ -66,6 +68,7 @@
       </div>
       <div class="stars">⭐ <span class="starCount">0</span></div>
     </header>
+    <div class="ortu">👨‍👩‍👧 Harap didampingi orang tua saat bermain.</div>
     <div class="menu">
       <button class="tile t1" data-game="warna"><span class="ico">🎨</span>Warna</button>
       <button class="tile t2" data-game="hitung"><span class="ico">🍎</span>Hitung</button>
@@ -74,7 +77,7 @@
     </div>
     <p class="hint">🔊 Nyalakan suara HP ya!</p>
     <button class="reset" id="resetBtn">🔄 Reset bintang</button>
-    <p class="parent">Untuk orang tua: tiap permainan 5 soal, ada suara petunjuk berbahasa Indonesia. Tekan 🔊 untuk mengulang petunjuk.</p>
+    <p class="parent">Untuk orang tua: tiap permainan 5 soal, ada suara petunjuk berbahasa Indonesia. Tekan 🔊 untuk mengulang petunjuk. Di permainan Hewan, bunyi hewan muncul sebagai tulisan, yuk tirukan bersama anak!</p>
   </section>
 
   <!-- GAME -->
@@ -84,6 +87,7 @@
       <div class="progress" id="progress"></div>
       <button class="round-btn" id="sayBtn" aria-label="Ulangi suara">🔊</button>
     </div>
+    <div class="ortu small">👨‍👩‍👧 Harap didampingi orang tua</div>
     <div class="prompt" id="prompt"></div>
     <div class="stage" id="stage"></div>
     <div class="choices c3" id="choices"></div>
@@ -212,12 +216,11 @@ const GAMES = {
   hewan(){
     const ans = pick(ANIMALS,1)[0];
     const opts = shuffle([ans,...pick(ANIMALS,2,[ans])]);
-    const askSound = Math.random()<0.5;
     return {
-      prompt: askSound ? 'Siapa yang bunyi "'+ans.s+'"?' : 'Mana '+ans.n+'?',
-      speak: askSound ? 'Siapa yang bunyinya, '+ans.s+'?' : 'Mana '+ans.n+'?',
+      prompt:'Mana '+ans.n+'?', speak:'Mana '+ans.n+'?',
       stage:'', opts:opts.map(o=>({html:o.e,ok:o===ans,label:o.n})),
-      praise:'Betul! '+ans.n+' bunyinya '+ans.s+'!'
+      praise:'Betul! Itu '+ans.n+'!',
+      bubble: ans.e+' “'+ans.s.charAt(0).toUpperCase()+ans.s.slice(1)+'!”'
     };
   },
   bentuk(){
@@ -268,6 +271,7 @@ function answer(btn,o){
     locked=true; btn.classList.add('right');
     [...$('choices').children].forEach(c=>{ if(c!==btn) c.classList.add('fade'); });
     yay(); confetti(); say(q.praise);
+    if(q.bubble){ $('prompt').textContent=q.bubble; $('stage').style.display='none'; }
     stars++; setStars(); round++; drawProgress();
     setTimeout(nextRound, 2600);
   }else{

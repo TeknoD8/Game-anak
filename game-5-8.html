@@ -60,6 +60,8 @@
   @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
   .hidden{display:none!important}
   .parent{margin-top:auto;padding-top:20px;font-size:15px;opacity:.6;text-align:center}
+  .ortu{background:#fff4e6;border:2px dashed #ffa94d;color:#d9480f;border-radius:16px;padding:8px 12px;font-weight:800;font-size:17px;text-align:center;margin:12px 0 0}
+  .ortu.small{font-size:14px;padding:3px 10px;margin:8px auto 0;border-width:1.5px}
 </style>
 </head>
 <body>
@@ -74,6 +76,7 @@
       </div>
       <div class="stars">⭐ <span class="starCount">0</span></div>
     </header>
+    <div class="ortu">👨‍👩‍👧 Harap didampingi orang tua saat bermain.</div>
     <div class="menu">
       <button class="tile t1" data-game="baca"><span class="ico">📖</span>Membaca<small>suku kata &amp; kata</small></button>
       <button class="tile t2" data-game="hitung"><span class="ico">➕</span>Berhitung<small>tambah &amp; kurang</small></button>
@@ -91,6 +94,7 @@
       <div class="progress" id="progress"></div>
       <button class="round-btn" id="sayBtn" aria-label="Ulangi suara">🔊</button>
     </div>
+    <div class="ortu small">👨‍👩‍👧 Harap didampingi orang tua</div>
     <div class="prompt" id="prompt"></div>
     <div class="stage" id="stage"></div>
     <div class="choices" id="choices"></div>
