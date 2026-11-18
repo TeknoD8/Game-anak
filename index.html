@@ -19,6 +19,25 @@
   .a1{background:#ff8fab}.a2{background:#20c997}.a3{background:#748ffc}
   .soon{opacity:.55;pointer-events:none}
   footer{text-align:center;font-size:14px;opacity:.55;margin-top:24px}
+  .shop{margin-top:34px;background:#fff;border-radius:24px;padding:16px 14px 18px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .shop h2{margin:0;font-size:24px;text-align:center}
+  .shop .s2{margin:0 0 12px;text-align:center;font-size:15px;opacity:.7;font-weight:600}
+  .gal{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+  .gal img{width:150px;height:150px;object-fit:cover;border-radius:14px;flex:none;scroll-snap-align:start;background:#f1f3f5}
+  .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .btns button{border:0;border-radius:16px;padding:12px 6px;font:800 17px 'Baloo 2',system-ui,sans-serif;color:#fff;cursor:pointer;line-height:1.1}
+  .btns small{display:block;font-weight:600;font-size:13px;opacity:.9}
+  .shp{background:#ee4d2d}.tt{background:#111}
+  .gate{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:9}
+  .gate.on{display:flex}
+  .gbox{background:#fff;border-radius:22px;padding:20px;max-width:340px;width:100%;text-align:center}
+  .gbox h3{margin:0 0 4px;font-size:22px}
+  .gbox p{margin:0 0 10px;font-size:16px}
+  .gbox input{width:100%;font:800 24px system-ui;text-align:center;padding:8px;border:2px solid #ced4da;border-radius:12px}
+  .gbox .row{display:flex;gap:8px;margin-top:12px}
+  .gbox .row button{flex:1;border:0;border-radius:12px;padding:10px;font:800 17px 'Baloo 2',system-ui,sans-serif;cursor:pointer}
+  .ok{background:#20c997;color:#fff}.no{background:#e9ecef}
+  .err{color:#e03131;font-weight:700;min-height:20px;margin-top:6px;font-size:15px}
 </style>
 </head>
 <body>
@@ -30,6 +49,54 @@
   <a class="age a3" href="game-8-11.html"><span class="ico">🚀</span><span><div class="t">8–11 tahun</div><div class="d">Kali &amp; Bagi · Pecahan · Ejaan · Pengetahuan</div></span></a>
   <p style="background:#fff4e6;border:2px dashed #ffa94d;color:#d9480f;border-radius:16px;padding:10px 12px;font-weight:800;font-size:18px;text-align:center">👨‍👩‍👧 Harap didampingi orang tua saat bermain.</p>
   <footer>Nyalakan suara untuk petunjuk 🔊</footer>
+
+  <section class="shop" aria-label="Toko kami">
+    <h2>🛍️ Untuk Ayah &amp; Bunda</h2>
+    <p class="s2">Stroller, sepeda anak &amp; buku mewarnai dari toko kami</p>
+    <div class="gal">
+      <img src="toko/stroller.webp" alt="Stroller travel anak" loading="lazy">
+      <img src="toko/sepeda-3in1.webp" alt="Sepeda anak 3 in 1" loading="lazy">
+      <img src="toko/sepeda-3mode.webp" alt="Sepeda anak 3 mode" loading="lazy">
+      <img src="toko/mewarnai-kidgen.webp" alt="Buku mewarnai 50 lembar" loading="lazy">
+      <img src="toko/mewarnai-kegiatan.webp" alt="Mewarnai kegiatan anak" loading="lazy">
+    </div>
+    <div class="btns">
+      <button class="shp" data-u="https://id.shp.ee/p2BsTaVw">Shopee<small>Toko 1</small></button>
+      <button class="shp" data-u="https://id.shp.ee/FTNqzu3h">Shopee<small>Toko 2</small></button>
+      <button class="tt" data-u="https://vt.tiktok.com/ZSpWPccoC/?page=Mall">TikTok Shop<small>Toko 1</small></button>
+      <button class="tt" data-u="https://vt.tiktok.com/ZSpWPEDMR/?page=Mall">TikTok Shop<small>Toko 2</small></button>
+    </div>
+  </section>
 </div>
+
+<div class="gate" id="gate" role="dialog" aria-modal="true">
+  <div class="gbox">
+    <h3>👨‍👩‍👧 Khusus Orang Tua</h3>
+    <p>Jawab dulu untuk membuka toko:</p>
+    <p style="font-size:26px;font-weight:800" id="q"></p>
+    <input id="ans" inputmode="numeric" autocomplete="off">
+    <div class="err" id="err"></div>
+    <div class="row"><button class="no" id="batal">Batal</button><button class="ok" id="buka">Buka</button></div>
+  </div>
+</div>
+<script>
+(function(){
+  var gate=document.getElementById('gate'),q=document.getElementById('q'),ans=document.getElementById('ans'),err=document.getElementById('err'),url='',sol=0;
+  function r(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+  document.querySelectorAll('.btns button').forEach(function(b){
+    b.addEventListener('click',function(){
+      url=b.dataset.u;var x=r(23,68),y=r(17,49);sol=x+y;
+      q.textContent=x+' + '+y+' = ?';ans.value='';err.textContent='';gate.classList.add('on');ans.focus();
+    });
+  });
+  document.getElementById('batal').onclick=function(){gate.classList.remove('on')};
+  function go(){
+    if(parseInt(ans.value,10)===sol){gate.classList.remove('on');window.open(url,'_blank','noopener');}
+    else{err.textContent='Jawaban belum tepat, coba lagi ya.';ans.value='';}
+  }
+  document.getElementById('buka').onclick=go;
+  ans.addEventListener('keydown',function(e){if(e.key==='Enter')go()});
+})();
+</script>
 </body>
 </html>
