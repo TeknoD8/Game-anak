@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sertifikat Bintang – Main & Belajar</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#4dabf7">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:'Baloo 2',system-ui,sans-serif;background:linear-gradient(180deg,#fff3bf 0%,#ffe3e3 100%);color:#2b2d42;min-height:100vh}
+  .wrap{max-width:560px;margin:0 auto;padding:12px 16px 24px}
+  .back{display:inline-block;font-weight:800;font-size:17px;color:#495057;text-decoration:none;background:#fff;border-radius:999px;padding:3px 14px;box-shadow:0 3px 0 #dee2e6}
+  h1{font-size:30px;text-align:center;margin:8px 0 0;line-height:1.1}
+  .total{text-align:center;font-size:20px;font-weight:700;margin:2px 0 10px}
+  .total b{font-size:28px}
+  .rows{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+  .rows div{background:#fff;border-radius:12px;text-align:center;padding:4px 2px;font-size:13px;font-weight:700;line-height:1.15}
+  .rows b{display:block;font-size:18px}
+  .bar{height:18px;background:#fff;border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.08)}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,#ffd43b,#fab005);border-radius:999px;transition:width .6s}
+  .goal{text-align:center;font-weight:800;font-size:17px;margin:6px 0 12px}
+  label{font-weight:800;font-size:17px}
+  input{width:100%;font:800 22px 'Baloo 2',system-ui;padding:6px 12px;border:3px solid #ffd43b;border-radius:14px;margin:4px 0 12px;text-align:center}
+  canvas{width:100%;height:auto;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.15);background:#fff;display:block}
+  .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .btns button{border:0;border-radius:16px;padding:12px;font:800 18px 'Baloo 2',system-ui;color:#fff;cursor:pointer}
+  .save{background:#4dabf7}.share{background:#25d366}
+  .locked{text-align:center;background:#fff;border-radius:18px;padding:18px;font-size:19px;font-weight:700}
+  .locked .big{font-size:64px;line-height:1}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">⬅ Kembali</a>
+  <h1>🏅 Sertifikat Bintang</h1>
+  <p class="total">Total bintangmu: <b id="total">0</b> ⭐</p>
+  <div class="rows" id="rows"></div>
+  <div class="bar"><i id="barFill" style="width:0"></i></div>
+  <p class="goal" id="goal"></p>
+
+  <div id="lockBox" class="locked hidden"><div class="big">🔒</div><div id="lockText"></div><p style="font-size:15px;opacity:.7;margin:8px 0 0">Main game apa saja untuk mengumpulkan bintang.</p></div>
+
+  <div id="certBox" class="hidden">
+    <label for="nama">Nama anak:</label>
+    <input id="nama" maxlength="24" placeholder="Tulis nama di sini" autocomplete="off">
+    <canvas id="cv" width="1200" height="850"></canvas>
+    <div class="btns">
+      <button class="save" id="saveBtn">💾 Simpan</button>
+      <button class="share" id="shareBtn">📲 Bagikan</button>
+    </div>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const GAMES=[['stars35','3–5 th'],['stars58','5–8 th'],['stars811','8–11 th'],['starsEN','English'],['starsSP','Sepeda']];
+const LEVELS=[[20,'Perunggu','🥉','#c77c48','#fff0e6'],[50,'Perak','🥈','#868e96','#f1f3f5'],[100,'Emas','🥇','#f08c00','#fff9db'],[200,'Berlian','💎','#1c7ed6','#e7f5ff']];
+const SITE='teknod8.github.io/Game-anak';
+let total=0;
+$('rows').innerHTML=GAMES.map(([k,l])=>{let v=0;try{v=parseInt(localStorage.getItem(k)||'0',10)||0}catch(e){}total+=v;return `<div><b>${v}</b>${l}</div>`}).join('');
+$('total').textContent=total;
+let lvl=null,nextL=null;
+LEVELS.forEach(L=>{if(total>=L[0])lvl=L;else if(!nextL)nextL=L});
+if(nextL){const base=lvl?lvl[0]:0;$('barFill').style.width=Math.round((total-base)/(nextL[0]-base)*100)+'%';$('goal').textContent=`${nextL[0]-total} bintang lagi untuk sertifikat ${nextL[1]} ${nextL[2]}`}
+else{$('barFill').style.width='100%';$('goal').textContent='Luar biasa! Sertifikat tertinggi sudah didapat 💎'}
+
+if(!lvl){$('lockBox').classList.remove('hidden');$('lockText').textContent=`Kumpulkan ${LEVELS[0][0]} bintang untuk membuka sertifikat pertama!`}
+else{$('certBox').classList.remove('hidden')}
+
+let nama='';try{nama=localStorage.getItem('certName')||''}catch(e){}
+$('nama').value=nama;
+
+function star(ctx,x,y,r,c){ctx.save();ctx.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;ctx.lineTo(x+rr*Math.cos(a),y+rr*Math.sin(a))}ctx.closePath();ctx.fillStyle=c;ctx.fill();ctx.restore()}
+function draw(){
+  if(!lvl)return;
+  const cv=$('cv'),c=cv.getContext('2d'),W=cv.width,H=cv.height,col=lvl[3];
+  c.fillStyle=lvl[4];c.fillRect(0,0,W,H);
+  c.lineWidth=18;c.strokeStyle=col;c.strokeRect(24,24,W-48,H-48);
+  c.lineWidth=4;c.strokeRect(52,52,W-104,H-104);
+  [[90,90],[W-90,90],[90,H-90],[W-90,H-90]].forEach(([x,y])=>star(c,x,y,30,'#fcc419'));
+  c.textAlign='center';c.fillStyle='#2b2d42';
+  c.font="800 44px 'Baloo 2', sans-serif";c.fillText('SERTIFIKAT '+lvl[1].toUpperCase(),W/2,150);
+  c.font="700 30px 'Baloo 2', sans-serif";c.fillStyle='#495057';c.fillText('Main & Belajar · diberikan kepada',W/2,200);
+  const n=($('nama').value.trim()||'Anak Hebat');
+  let fs=96;c.font=`800 ${fs}px 'Baloo 2', sans-serif`;while(c.measureText(n).width>W-220&&fs>40){fs-=4;c.font=`800 ${fs}px 'Baloo 2', sans-serif`}
+  c.fillStyle=col;c.fillText(n,W/2,320);
+  c.strokeStyle=col;c.lineWidth=4;c.beginPath();c.moveTo(260,345);c.lineTo(W-260,345);c.stroke();
+  c.fillStyle='#2b2d42';c.font="700 34px 'Baloo 2', sans-serif";c.fillText('karena rajin belajar dan berhasil mengumpulkan',W/2,410);
+  star(c,W/2-150,505,58,'#fcc419');
+  c.font="800 96px 'Baloo 2', sans-serif";c.textAlign='left';c.fillStyle='#2b2d42';c.fillText(total+' bintang',W/2-75,538);
+  c.textAlign='center';c.font="120px sans-serif";c.fillText(lvl[2],W/2,700);
+  const d=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+  c.font="700 28px 'Baloo 2', sans-serif";c.fillStyle='#495057';c.fillText(d,W/2,750);
+  c.font="700 24px 'Baloo 2', sans-serif";c.fillText('🎈 '+SITE,W/2,H-70);
+}
+function blob(){return new Promise(r=>$('cv').toBlob(r,'image/png'))}
+function fname(){return 'sertifikat-'+(($('nama').value.trim()||'anak').replace(/[^a-z0-9]+/gi,'-').toLowerCase())+'.png'}
+$('nama').addEventListener('input',()=>{try{localStorage.setItem('certName',$('nama').value)}catch(e){}draw()});
+$('saveBtn').onclick=async()=>{const b=await blob();const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fname();document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)};
+$('shareBtn').onclick=async()=>{
+  const text=`${$('nama').value.trim()||'Anakku'} dapat sertifikat ${lvl[1]} di Main & Belajar! Yuk ikut main gratis: https://${SITE}/`;
+  try{const f=new File([await blob()],fname(),{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text});return}}catch(e){if(e&&e.name==='AbortError')return}
+  location.href='https://wa.me/?text='+encodeURIComponent(text);
+};
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(draw);draw();
+</script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){})</script>
+</body>
+</html>

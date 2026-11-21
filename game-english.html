@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#4dabf7">
+<title>English Fun – Main & Belajar</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+  html,body{margin:0;height:100%}
+  body{font-family:'Baloo 2',system-ui,sans-serif;background:linear-gradient(180deg,#ffe3e3 0%,#e7f5ff 100%);color:#2b2d42;overflow-x:hidden;min-height:100vh}
+  .wrap{max-width:720px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  h1{font-size:clamp(26px,6vw,40px);margin:4px 0;line-height:1.1}
+  .badge{background:#20c997;color:#fff;border-radius:999px;padding:4px 14px;font-size:18px;font-weight:800}
+  .stars{font-size:26px;font-weight:800;background:#fff;border-radius:999px;padding:4px 14px;box-shadow:0 4px 0 #e0c97a;white-space:nowrap}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+  .tile{border:none;border-radius:28px;padding:18px 8px;font-family:inherit;font-size:24px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,.18);transition:transform .1s;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .tile:active{transform:translateY(6px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+  .tile .ico{font-size:58px;line-height:1}
+  .tile small{font-size:15px;font-weight:600;opacity:.9}
+  .t1{background:#f76707}.t2{background:#1c7ed6}.t3{background:#e64980}.t4{background:#7048e8}
+  .hint{text-align:center;margin-top:18px;font-size:18px;opacity:.75}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .round-btn{border:none;background:#fff;border-radius:50%;width:56px;height:56px;font-size:28px;cursor:pointer;box-shadow:0 5px 0 #d8d8d8;flex:none}
+  .round-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #d8d8d8}
+  .progress{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+  .dot{width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #ffd43b}
+  .dot.on{background:#ffd43b}
+  .prompt{text-align:center;font-size:clamp(24px,6vw,36px);font-weight:800;margin:12px 0 4px;min-height:1.2em}
+  .stage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:120px;margin:4px 0 12px;text-align:center}
+  .emoji-big{font-size:clamp(80px,22vw,120px);line-height:1}
+  .word{font-size:clamp(40px,11vw,64px);font-weight:800;letter-spacing:2px;background:#fff;border-radius:20px;padding:2px 22px;box-shadow:0 5px 0 #e3e3e3}
+  .word .gap{color:#ced4da}
+  .sum{font-size:clamp(52px,14vw,84px);font-weight:800;line-height:1}
+  .helper{font-size:clamp(22px,6vw,32px);line-height:1.2;max-width:100%;word-break:break-all}
+  .seq{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;font-size:clamp(40px,11vw,62px);font-weight:800}
+  .seq span{background:#fff;border-radius:16px;min-width:1.4em;padding:0 8px;box-shadow:0 4px 0 #e3e3e3;text-align:center}
+  .seq .q{background:#ffe066}
+  .clock{width:min(58vw,240px);height:min(58vw,240px)}
+  .choices{display:grid;gap:14px;margin-top:auto;padding-bottom:12px;grid-template-columns:1fr 1fr}
+  .choice{border:none;background:#fff;border-radius:24px;min-height:100px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 0 #d6d6d6;font-family:inherit;font-size:clamp(30px,8.5vw,50px);font-weight:800;color:#2b2d42;padding:10px;transition:transform .1s;line-height:1.1;text-align:center}
+  .choice:active{transform:translateY(6px);box-shadow:0 2px 0 #d6d6d6}
+  .choice.sm{font-size:clamp(24px,6.5vw,38px)}
+  .wiggle{animation:wig .45s}
+  @keyframes wig{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+  .right{animation:pop .5s;background:#d3f9d8!important}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .fade{opacity:.35}
+  .overlay{position:fixed;inset:0;background:rgba(255,255,255,.88);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:20;text-align:center;padding:20px}
+  .overlay.show{display:flex}
+  .overlay .big{font-size:110px;animation:pop 1s infinite}
+  .overlay h2{font-size:40px;margin:6px 0}
+  .go{border:none;background:#51cf66;color:#fff;font-family:inherit;font-size:28px;font-weight:800;border-radius:999px;padding:10px 36px;margin-top:14px;cursor:pointer;box-shadow:0 7px 0 #2f9e44;min-width:200px}
+  .go:active{transform:translateY(5px);box-shadow:0 2px 0 #2f9e44}
+  .go.blue{background:#4dabf7;box-shadow:0 7px 0 #1c7ed6}
+  .go.red{background:#fa5252;box-shadow:0 7px 0 #c92a2a}
+  .reset{display:block;margin:22px auto 0;border:none;background:#fff;font-family:inherit;font-size:18px;font-weight:800;color:#868e96;border-radius:999px;padding:8px 20px;box-shadow:0 4px 0 #dee2e6;cursor:pointer}
+  .confetti{position:fixed;top:-40px;font-size:30px;z-index:30;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+  .hidden{display:none!important}
+  .parent{margin-top:auto;padding-top:20px;font-size:15px;opacity:.6;text-align:center}
+  .ortu{background:#fff4e6;border:2px dashed #ffa94d;color:#d9480f;border-radius:16px;padding:8px 12px;font-weight:800;font-size:17px;text-align:center;margin:12px 0 0}
+  .ortu.small{font-size:14px;padding:3px 10px;margin:8px auto 0;border-width:1.5px}
+
+  .tile small{font-size:14px}
+  .t1{background:#e8590c}.t2{background:#1c7ed6}.t3{background:#2b8a3e}.t4{background:#ae3ec9}
+  .sub-id{text-align:center;font-size:18px;font-weight:700;opacity:.65;margin-top:-2px;min-height:1.3em}
+  .swatch{width:100%;height:100%;min-height:84px;border-radius:18px;border:4px solid #fff;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
+  .choice.col{padding:8px}
+  .line{display:flex;align-items:flex-end;justify-content:center;gap:4px;margin-top:auto;padding-bottom:8px;flex-wrap:nowrap}
+  .line .flag{font-size:40px;line-height:1;margin-right:2px}
+  .line button{border:none;background:#fff;border-radius:14px;font-size:clamp(26px,8vw,40px);width:clamp(38px,10.5vw,58px);height:clamp(54px,15vw,76px);cursor:pointer;box-shadow:0 5px 0 #d6d6d6;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+  .line button small{font-size:11px;font-weight:800;color:#2f9e44;min-height:12px}
+  .line button:active{transform:translateY(4px);box-shadow:0 1px 0 #d6d6d6}
+  .learn{font-size:20px;font-weight:800;background:#fff;border-radius:14px;padding:2px 12px;margin-top:6px;min-height:1.4em;opacity:0;transition:opacity .2s}
+  .learn.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="menu">
+    <a href="index.html" style="display:inline-block;font-weight:800;font-size:18px;color:#495057;text-decoration:none;background:#fff;border-radius:999px;padding:4px 14px;margin-bottom:8px;box-shadow:0 3px 0 #dee2e6">⬅ Pilih umur</a>
+    <header>
+      <div>
+        <span class="badge" style="background:#e64980">4–9 tahun</span>
+        <h1>English Fun! 🇬🇧</h1>
+      </div>
+      <div class="stars">⭐ <span class="starCount">0</span></div>
+    </header>
+    <div class="ortu">👨‍👩‍👧 Harap didampingi orang tua saat bermain.</div>
+    <div class="menu">
+      <button class="tile t1" data-game="colors"><span class="ico">🎨</span>Colors<small>warna</small></button>
+      <button class="tile t2" data-game="numbers"><span class="ico">🔢</span>Numbers<small>angka 1–20</small></button>
+      <button class="tile t3" data-game="animals"><span class="ico">🐶</span>Animals<small>hewan</small></button>
+      <button class="tile t4" data-game="order"><span class="ico">🥇</span>1st, 2nd, 3rd<small>angka urutan</small></button>
+    </div>
+    <p class="hint">🔊 Dengarkan kata bahasa Inggrisnya, lalu tekan jawabannya!</p>
+    <button class="reset" id="resetBtn">🔄 Reset bintang</button>
+    <p class="parent">Untuk orang tua: tiap permainan 8 soal. Suara memakai bahasa Inggris dari HP; tekan 🔊 untuk mengulang.</p>
+  </section>
+
+  <section id="game" class="hidden" style="display:flex;flex-direction:column;flex:1">
+    <div class="bar">
+      <button class="round-btn" id="homeBtn" aria-label="Kembali">🏠</button>
+      <div class="progress" id="progress"></div>
+      <button class="round-btn" id="sayBtn" aria-label="Ulangi suara">🔊</button>
+    </div>
+    <div class="prompt" id="prompt"></div>
+    <div class="sub-id" id="subid"></div>
+    <div class="stage" id="stage"></div>
+    <div class="choices" id="choices"></div>
+  </section>
+</div>
+
+<div class="overlay" id="done">
+  <div class="big">🏆</div>
+  <h2>Great job!</h2>
+  <div style="font-size:24px" id="doneText"></div>
+  <button class="go" id="againBtn">Main Lagi</button>
+  <button class="go blue" id="menuBtn">Menu</button>
+</div>
+
+<div class="overlay" id="confirmReset">
+  <div style="font-size:80px">🔄</div>
+  <h2>Hapus bintang English?</h2>
+  <div style="font-size:20px">Bintang akan kembali ke 0.</div>
+  <button class="go red" id="yesReset">Ya, reset</button>
+  <button class="go blue" id="noReset">Batal</button>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(a,n)=>shuffle([...a]).slice(0,n);
+
+// ---------- Suara (bahasa Inggris) ----------
+let vEN=null;
+function pickVoice(){try{const vs=speechSynthesis.getVoices();vEN=vs.find(v=>/^en[-_]US/i.test(v.lang))||vs.find(v=>/^en[-_]GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null}catch(e){}}
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(vEN)u.voice=vEN;u.rate=0.85;u.pitch=1.1;speechSynthesis.speak(u)}catch(e){}}
+let actx=null;
+function tone(fs,d=0.12){try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();fs.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=f;const t=actx.currentTime+i*d;g.gain.setValueAtTime(0.18,t);g.gain.exponentialRampToValueAtTime(0.001,t+d*1.6);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+d*1.7)})}catch(e){}}
+const yay=()=>tone([523,659,784,1047]),oops=()=>tone([300,240],0.15);
+
+const STAR_KEY='starsEN';
+let stars=0;
+try{stars=parseInt(localStorage.getItem(STAR_KEY)||'0',10)||0}catch(e){}
+function setStars(){document.querySelectorAll('.starCount').forEach(s=>s.textContent=stars);try{localStorage.setItem(STAR_KEY,stars)}catch(e){}}
+setStars();
+function confetti(){const b=['⭐','🎉','🌟','🎈','💖','✨'];for(let i=0;i<18;i++){const d=document.createElement('div');d.className='confetti';d.textContent=b[i%b.length];d.style.left=Math.random()*100+'vw';d.style.animationDuration=(1.4+Math.random()*1.4)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}}
+
+// ---------- Data ----------
+const COLORS=[['red','merah','#fa5252'],['blue','biru','#339af0'],['green','hijau','#40c057'],['yellow','kuning','#fcc419'],['orange','oranye','#fd7e14'],['purple','ungu','#9c36b5'],['pink','merah muda','#f783ac'],['brown','cokelat','#8d5524'],['black','hitam','#212529'],['white','putih','#ffffff'],['gray','abu-abu','#adb5bd']];
+const NUMS=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+const ANG=['nol','satu','dua','tiga','empat','lima','enam','tujuh','delapan','sembilan','sepuluh','sebelas','dua belas','tiga belas','empat belas','lima belas','enam belas','tujuh belas','delapan belas','sembilan belas','dua puluh'];
+const ANIMALS=[['cat','kucing','🐱'],['dog','anjing','🐶'],['cow','sapi','🐮'],['chicken','ayam','🐔'],['duck','bebek','🦆'],['fish','ikan','🐟'],['bird','burung','🐦'],['elephant','gajah','🐘'],['monkey','monyet','🐵'],['lion','singa','🦁'],['tiger','harimau','🐯'],['horse','kuda','🐴'],['rabbit','kelinci','🐰'],['frog','katak','🐸'],['pig','babi','🐷'],['sheep','domba','🐑'],['bear','beruang','🐻'],['turtle','kura-kura','🐢'],['butterfly','kupu-kupu','🦋'],['snake','ular','🐍']];
+const ORD=['first','second','third','fourth','fifth','sixth','seventh','eighth'];
+const ORDS=['1st','2nd','3rd','4th','5th','6th','7th','8th'];
+const ORD_ID=['pertama','kedua','ketiga','keempat','kelima','keenam','ketujuh','kedelapan'];
+const RACERS=['🐢','🐰','🐶','🐱','🐻','🐸','🐷','🐵','🐔','🦆'];
+const PRAISE=['Great job!','Well done!','Awesome!','Excellent!','Very good!','You did it!'];
+
+const ROUNDS=8;
+let current=null,round=0,q=null,locked=false,firstTry=true,earned=0,deck=[];
+function drawProgress(){$('progress').innerHTML=Array.from({length:ROUNDS},(_,i)=>`<span class="dot${i<round?' on':''}"></span>`).join('')}
+
+function makeQ(){
+  const lv=round; // makin lama makin sulit
+  if(current==='colors'){
+    const pool=COLORS.slice(0,lv<3?6:COLORS.length);
+    const ans=deck.pop()||pick(pool,1)[0];
+    const opts=shuffle([ans,...pick(pool.filter(c=>c!==ans),lv<4?2:3)]);
+    return {prompt:'Find <b>'+ans[0].toUpperCase()+'</b>',speak:'Find '+ans[0],learn:ans[0]+' = '+ans[1],praise:ans[0]+'! '+PRAISE[rnd(0,5)],
+      opts:opts.map(c=>({html:`<div class="swatch" style="background:${c[2]}"></div>`,ok:c===ans,cls:'col'}))};
+  }
+  if(current==='numbers'){
+    const max=lv<3?10:20;const n=rnd(lv<3?1:6,max);
+    const s=new Set([n]);while(s.size<(lv<4?3:4)){const v=n+rnd(-4,4);if(v>=0&&v<=20)s.add(v)}
+    // kadang: lihat angka, pilih kata
+    if(lv>=5&&Math.random()<.5){
+      return {prompt:'What number is this?',speak:'What number is this?',stageHTML:`<div class="sum">${n}</div>`,learn:n+' = '+NUMS[n]+' ('+ANG[n]+')',praise:NUMS[n]+'! '+PRAISE[rnd(0,5)],
+        opts:shuffle([...s]).map(v=>({html:NUMS[v],ok:v===n,cls:'sm'}))};
+    }
+    return {prompt:'Find <b>'+NUMS[n].toUpperCase()+'</b>',speak:NUMS[n],learn:NUMS[n]+' = '+n+' ('+ANG[n]+')',praise:NUMS[n]+'! '+PRAISE[rnd(0,5)],
+      opts:shuffle([...s]).map(v=>({html:String(v),ok:v===n}))};
+  }
+  if(current==='animals'){
+    const pool=ANIMALS.slice(0,lv<3?10:ANIMALS.length);
+    const ans=pick(pool,1)[0];
+    const opts=shuffle([ans,...pick(pool.filter(a=>a!==ans),lv<3?2:3)]);
+    return {prompt:'Where is the <b>'+ans[0].toUpperCase()+'</b>?',speak:'Where is the '+ans[0]+'?',learn:ans[0]+' = '+ans[1],praise:'The '+ans[0]+'! '+PRAISE[rnd(0,5)],
+      opts:opts.map(a=>({html:`<span style="font-size:clamp(50px,14vw,72px)">${a[2]}</span>`,ok:a===ans}))};
+  }
+  // order: barisan menuju garis start
+  const len=lv<3?5:8;const k=rnd(0,len-1);
+  const racers=pick(RACERS,len);
+  return {prompt:'Tap the <b>'+ORD[k].toUpperCase()+'</b> one',speak:'Tap the '+ORD[k]+' one.',learn:ORDS[k]+' = '+ORD[k]+' ('+ORD_ID[k]+')',praise:ORD[k]+'! '+PRAISE[rnd(0,5)],
+    line:racers,ans:k};
+}
+
+function render(){
+  locked=false;firstTry=true;q=makeQ();
+  $('prompt').innerHTML=q.prompt;$('subid').textContent='';
+  const st=$('stage');st.innerHTML=(q.stageHTML||'')+'<div class="learn" id="learn"></div>';
+  const ch=$('choices');ch.innerHTML='';ch.className='choices';
+  if(q.line){
+    $('subid').textContent='Hitung dari bendera 🏁';
+    ch.className='line';
+    ch.innerHTML='<span class="flag">🏁</span>';
+    q.line.forEach((e,i)=>{const b=document.createElement('button');b.innerHTML=`<span>${e}</span><small></small>`;b.onclick=()=>answer(b,i===q.ans,i);ch.appendChild(b)});
+  }else{
+    q.opts.forEach(o=>{const b=document.createElement('button');b.className='choice'+(o.cls?' '+o.cls:'');b.innerHTML=o.html;b.onclick=()=>answer(b,o.ok);ch.appendChild(b)});
+  }
+  setTimeout(()=>say(q.speak),250);
+}
+function answer(btn,ok){
+  if(locked)return;
+  if(ok){
+    locked=true;btn.classList.add('right');
+    if(q.line){[...$('choices').querySelectorAll('button')].forEach((b,i)=>{b.querySelector('small').textContent=ORDS[i]})}
+    else [...$('choices').children].forEach(c=>{if(c!==btn)c.classList.add('fade')});
+    $('learn').textContent=q.learn;$('learn').classList.add('on');
+    yay();confetti();say(q.praise);
+    if(firstTry){stars++;earned++;setStars()}
+    round++;drawProgress();setTimeout(next,2600);
+  }else{
+    firstTry=false;oops();btn.classList.remove('wiggle');void btn.offsetWidth;btn.classList.add('wiggle');
+    say('Try again!');
+  }
+}
+function next(){if(round>=ROUNDS)finish();else render()}
+function startGame(g){current=g;round=0;earned=0;deck=[];$('menu').classList.add('hidden');$('game').classList.remove('hidden');$('done').classList.remove('show');drawProgress();render()}
+function finish(){
+  $('doneText').textContent='Kamu dapat '+earned+' bintang ⭐';
+  $('done').classList.add('show');tone([523,659,784,1047,784,1047],0.14);confetti();setTimeout(confetti,600);
+  say('Great job! You got '+NUMS[Math.min(earned,20)]+' stars!');
+}
+function goMenu(){try{speechSynthesis.cancel()}catch(e){}$('done').classList.remove('show');$('game').classList.add('hidden');$('menu').classList.remove('hidden')}
+
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>startGame(t.dataset.game));
+$('homeBtn').onclick=goMenu;
+$('sayBtn').onclick=()=>q&&say(q.speak);
+$('againBtn').onclick=()=>startGame(current);
+$('menuBtn').onclick=goMenu;
+$('resetBtn').onclick=()=>$('confirmReset').classList.add('show');
+$('noReset').onclick=()=>$('confirmReset').classList.remove('show');
+$('yesReset').onclick=()=>{stars=0;setStars();$('confirmReset').classList.remove('show');tone([392,330,262],0.1)};
+</script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){})</script>
+</body>
+</html>

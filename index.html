@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Main & Belajar Anak</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#4dabf7">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="description" content="Game edukasi gratis untuk anak 3–11 tahun: membaca, berhitung, bahasa Inggris, dan lainnya.">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -17,6 +21,14 @@
   .t{font-size:23px;font-weight:800;line-height:1.1}
   .d{font-size:13.5px;font-weight:600;opacity:.95;line-height:1.25}
   .a1{background:#ff8fab}.a2{background:#20c997}.a3{background:#748ffc}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+  .duo a.age{margin:0;padding:8px 10px;gap:8px}
+  .duo .ico{font-size:32px}.duo .t{font-size:19px}.duo .d{font-size:12.5px}
+  .a4{background:#e64980}.a5{background:#f08c00}
+  .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+  .tools a,.tools button{display:flex;align-items:center;justify-content:center;gap:4px;border:0;border-radius:14px;padding:7px 4px;background:#fff;color:#2b2d42;font:800 14.5px 'Baloo 2',system-ui,sans-serif;text-decoration:none;box-shadow:0 4px 0 #dee2e6;cursor:pointer;line-height:1.1}
+  .tools .wa{background:#25d366;color:#fff;box-shadow:0 4px 0 #128c4a}
+  .tools .inst{background:#4dabf7;color:#fff;box-shadow:0 4px 0 #1c7ed6}
   .note{background:#fff4e6;border:2px dashed #ffa94d;color:#d9480f;border-radius:12px;padding:3px 8px;font-weight:800;font-size:14px;text-align:center;margin:4px 0 10px}
   footer{text-align:center;font-size:12px;opacity:.55;margin-top:8px}
   .shop{background:#fff;border-radius:18px;padding:8px 10px 10px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
@@ -46,6 +58,15 @@
   <a class="age a1" href="game-3-5.html"><span class="ico">🧸</span><span><div class="t">3–5 tahun</div><div class="d">Warna · Hitung · Hewan · Bentuk</div></span></a>
   <a class="age a2" href="game-5-8.html"><span class="ico">🎒</span><span><div class="t">5–8 tahun</div><div class="d">Membaca · Berhitung · Jam · Pola</div></span></a>
   <a class="age a3" href="game-8-11.html"><span class="ico">🚀</span><span><div class="t">8–11 tahun</div><div class="d">Kali &amp; Bagi · Pecahan · Ejaan · Pengetahuan</div></span></a>
+  <div class="duo">
+    <a class="age a4" href="game-english.html"><span class="ico">🇬🇧</span><span><div class="t">English Fun</div><div class="d">Colors · Numbers · Animals</div></span></a>
+    <a class="age a5" href="game-sepeda.html"><span class="ico">🚴</span><span><div class="t">Balap Sepeda</div><div class="d">Berhitung sambil ngebut</div></span></a>
+  </div>
+  <div class="tools">
+    <a href="sertifikat.html">🏅 Sertifikat</a>
+    <button class="wa" id="shareBtn">📲 Bagikan</button>
+    <button class="inst" id="installBtn">📥 Pasang</button>
+  </div>
   <p class="note">👨‍👩‍👧 Harap didampingi orang tua saat bermain</p>
   <section class="shop" aria-label="Toko kami">
     <h2>🛍️ Untuk Ayah &amp; Bunda: toko kami</h2>
@@ -67,7 +88,7 @@
 <div class="gate" id="gate" role="dialog" aria-modal="true">
   <div class="gbox">
     <h3>👨‍👩‍👧 Khusus Orang Tua</h3>
-    <p>Jawab dulu untuk membuka toko:</p>
+    <p>Jawab dulu untuk melanjutkan:</p>
     <p style="font-size:26px;font-weight:800" id="q"></p>
     <input id="ans" inputmode="numeric" autocomplete="off">
     <div class="err" id="err"></div>
@@ -78,12 +99,10 @@
 (function(){
   var gate=document.getElementById('gate'),q=document.getElementById('q'),ans=document.getElementById('ans'),err=document.getElementById('err'),url='',sol=0;
   function r(a,b){return a+Math.floor(Math.random()*(b-a+1))}
-  document.querySelectorAll('.btns button').forEach(function(b){
-    b.addEventListener('click',function(){
-      url=b.dataset.u;var x=r(23,68),y=r(17,49);sol=x+y;
-      q.textContent=x+' + '+y+' = ?';ans.value='';err.textContent='';gate.classList.add('on');ans.focus();
-    });
-  });
+  function ask(u){url=u;var x=r(23,68),y=r(17,49);sol=x+y;
+      q.textContent=x+' + '+y+' = ?';ans.value='';err.textContent='';gate.classList.add('on');ans.focus();}
+  document.querySelectorAll('.btns button').forEach(function(b){b.addEventListener('click',function(){ask(b.dataset.u)})});
+  document.getElementById('shareBtn').addEventListener('click',function(){ask('https://wa.me/?text='+encodeURIComponent('Ada game belajar gratis buat anak 3–11 tahun: membaca, berhitung, bahasa Inggris, balap sepeda. Main langsung di HP: https://teknod8.github.io/Game-anak/'))});
   document.getElementById('batal').onclick=function(){gate.classList.remove('on')};
   function go(){
     if(parseInt(ans.value,10)===sol){gate.classList.remove('on');window.open(url,'_blank','noopener');}
@@ -91,6 +110,23 @@
   }
   document.getElementById('buka').onclick=go;
   ans.addEventListener('keydown',function(e){if(e.key==='Enter')go()});
+})();
+</script>
+<div class="gate" id="iosTip"><div class="gbox"><h3>📥 Pasang di HP</h3><p id="iosText"></p><div class="row"><button class="ok" onclick="document.getElementById('iosTip').classList.remove('on')">Oke</button></div></div></div>
+<script>
+(function(){
+  var deferred=null,btn=document.getElementById('installBtn');
+  var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(standalone){btn.textContent='✅ Terpasang';btn.disabled=true}
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e});
+  window.addEventListener('appinstalled',function(){btn.textContent='✅ Terpasang';btn.disabled=true});
+  btn.addEventListener('click',function(){
+    if(deferred){deferred.prompt();deferred.userChoice.finally(function(){deferred=null});return}
+    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    document.getElementById('iosText').innerHTML=ios?'Tekan tombol <b>Bagikan</b> (kotak dengan panah ke atas) di Safari, lalu pilih <b>Tambah ke Layar Utama</b>.':'Buka menu <b>⋮</b> di Chrome, lalu pilih <b>Instal aplikasi</b> atau <b>Tambahkan ke layar utama</b>.';
+    document.getElementById('iosTip').classList.add('on');
+  });
+  if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
 })();
 </script>
 </body>
